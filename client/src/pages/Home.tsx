@@ -133,10 +133,10 @@ export default function Home() {
 
                   {/* Aba de Templates */}
                   <TabsContent value="templates" className="space-y-4">
-                    <div className="space-y-4">
+                    <div className="space-y-6 max-h-[600px] overflow-y-auto pr-2 custom-scrollbar">
                       {categories.map((category) => (
                         <div key={category}>
-                          <h3 className="text-sm font-bold text-muted-foreground uppercase tracking-wide mb-3">
+                          <h3 className="text-sm font-bold text-accent uppercase tracking-wide mb-3 border-b border-border pb-2">
                             {category}
                           </h3>
                           <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
@@ -147,14 +147,21 @@ export default function Home() {
                                   setSelectedTemplate(template.id);
                                   setCustomPrompt('');
                                 }}
-                                className={`p-4 text-left border-2 rounded-md transition-all ${
+                                className={`p-4 text-left border-2 rounded-md transition-all hover:shadow-sm ${
                                   selectedTemplate === template.id
-                                    ? 'border-accent bg-secondary'
-                                    : 'border-border hover:border-muted-foreground'
+                                    ? 'border-accent bg-accent/5 ring-1 ring-accent'
+                                    : 'border-border hover:border-accent/50'
                                 }`}
                               >
-                                <p className="font-bold text-foreground">{template.name}</p>
-                                <p className="text-sm text-muted-foreground mt-1">
+                                <div className="flex justify-between items-start mb-2">
+                                  <p className={`font-bold ${selectedTemplate === template.id ? 'text-accent' : 'text-foreground'}`}>
+                                    {template.name}
+                                  </p>
+                                  {selectedTemplate === template.id && (
+                                    <Check className="w-4 h-4 text-accent" />
+                                  )}
+                                </div>
+                                <p className="text-sm text-muted-foreground line-clamp-2">
                                   {template.description}
                                 </p>
                               </button>

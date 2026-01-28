@@ -15,6 +15,91 @@ export interface AppTemplate {
 
 export const TEMPLATES: AppTemplate[] = [
   {
+    id: 'design-system-builder',
+    name: 'Construtor de Design System',
+    category: 'Ferramentas de Design',
+    description: 'Ferramenta completa para criar, visualizar e exportar sistemas de design consistentes.',
+    prompt: `Crie uma ferramenta profissional de construção de Design System com os seguintes recursos:
+- Editor de tokens de design (cores, tipografia, espaçamento, sombras)
+- Visualização em tempo real dos componentes baseados nos tokens
+- Gerador automático de documentação de componentes
+- Exportação de tokens para CSS, SCSS, JSON e Tailwind config
+- Seção de acessibilidade com verificador de contraste WCAG
+- Biblioteca de componentes interativos (botões, inputs, cards, modais)
+- Suporte a múltiplos temas (claro, escuro, alto contraste)
+- Interface de drag-and-drop para organizar componentes
+- Histórico de versões do sistema de design
+- Design minimalista e focado na produtividade`,
+  },
+  {
+    id: 'saas-landing-page',
+    name: 'Landing Page SaaS',
+    category: 'Marketing',
+    description: 'Template de alta conversão para produtos SaaS com seções essenciais.',
+    prompt: `Desenvolva uma Landing Page para SaaS otimizada para conversão com:
+- Hero section impactante com título, subtítulo e CTA duplo
+- Seção de logos de clientes (social proof) com animação de scroll infinito
+- Grid de recursos (features) com ícones e descrições curtas
+- Seção "Como funciona" com passos ilustrados
+- Tabela de preços interativa com alternância mensal/anual
+- Depoimentos de clientes em carrossel
+- FAQ com accordion expansível
+- Rodapé completo com links úteis e newsletter
+- Design responsivo e performance otimizada (Core Web Vitals)
+- Animações de entrada (fade-in) ao rolar a página`,
+  },
+  {
+    id: 'e-commerce-dashboard',
+    name: 'Dashboard E-commerce',
+    category: 'Negócios',
+    description: 'Painel administrativo completo para gestão de loja virtual.',
+    prompt: `Crie um Dashboard Administrativo para E-commerce com:
+- Visão geral com KPIs (Vendas totais, Pedidos, Ticket médio)
+- Gráficos de vendas por período (Chart.js ou Recharts)
+- Tabela de gestão de pedidos com status e filtros avançados
+- Gestão de inventário com alertas de baixo estoque
+- Lista de clientes com histórico de compras
+- Notificações de atividades recentes em tempo real
+- Sidebar de navegação colapsável
+- Modo escuro/claro alternável
+- Design responsivo adaptável a tablets e desktops
+- Interface limpa focada em dados e usabilidade`,
+  },
+  {
+    id: 'ai-chat-interface',
+    name: 'Interface de Chat AI',
+    category: 'Inteligência Artificial',
+    description: 'Interface moderna para aplicações de chat baseadas em LLMs.',
+    prompt: `Desenvolva uma interface de chat para IA moderna e fluida com:
+- Área de chat com bolhas de mensagem diferenciadas (usuário vs IA)
+- Suporte a renderização de Markdown e blocos de código com syntax highlighting
+- Input de mensagem com auto-resize e suporte a envio com Enter
+- Sidebar de histórico de conversas com agrupamento por data
+- Botão de "Nova Conversa" e opções de limpar histórico
+- Indicadores de "digitando..." e estados de carregamento
+- Botões de feedback (like/dislike) e copiar resposta
+- Design similar ao ChatGPT/Claude com foco na legibilidade
+- Temas claro e escuro com transição suave
+- Responsividade total para uso em mobile`,
+  },
+  {
+    id: 'fitness-tracker',
+    name: 'Rastreador Fitness',
+    category: 'Saúde & Bem-estar',
+    description: 'App para monitoramento de treinos, dieta e progresso físico.',
+    prompt: `Crie um aplicativo de Rastreador Fitness completo com:
+- Dashboard diário com resumo de calorias, passos e água
+- Registro de treinos com exercícios, séries, repetições e carga
+- Diário alimentar com busca de alimentos e cálculo de macros
+- Gráficos de progresso de peso e medidas corporais
+- Timer de descanso entre séries integrado
+- Calendário de atividades para visualização de consistência
+- Gamificação com conquistas e badges
+- Calculadora de IMC e TMB integrada
+- Interface energética e motivadora
+- Otimizado para uso mobile durante os treinos`,
+  },
+  {
     id: 'todo-app',
     name: 'App de Tarefas',
     category: 'Produtividade',
