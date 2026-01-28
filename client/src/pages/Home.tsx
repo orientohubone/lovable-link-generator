@@ -80,8 +80,16 @@ export default function Home() {
 
   return (
     <div className="min-h-screen bg-white">
-      {/* Cabeçalho */}
+      {/* Cabeçalho com Navegação */}
       <header className="border-b border-border">
+        <div className="container py-4 flex justify-between items-center mb-4">
+          <a href="/" className="text-sm font-bold text-foreground hover:text-accent transition-colors">
+            Início
+          </a>
+          <a href="/faq" className="text-sm font-bold text-foreground hover:text-accent transition-colors">
+            FAQ
+          </a>
+        </div>
         <div className="container py-8 md:py-12">
           <h1 className="text-5xl md:text-6xl font-black text-foreground mb-2">
             Gerador de Links Lovable
@@ -275,10 +283,21 @@ export default function Home() {
 
       {/* Rodapé */}
       <footer className="border-t border-border mt-16">
-        <div className="container py-8 text-center text-sm text-muted-foreground">
-          <p>
-            Gerador de Links Lovable • Maximize conversões com criação automática de apps
-          </p>
+        <div className="container py-8">
+          <div className="flex flex-col md:flex-row justify-between items-center gap-4 mb-6">
+            <p className="text-sm text-muted-foreground">
+              Gerador de Links Lovable • Maximize conversões com criação automática de apps
+            </p>
+            <a
+              href="/faq"
+              className="text-sm font-bold text-accent hover:text-accent/90 transition-colors"
+            >
+              Perguntas Frequentes
+            </a>
+          </div>
+          <div className="text-xs text-muted-foreground text-center border-t border-border pt-4">
+            <p>© 2026 Gerador de Links Lovable. Todos os direitos reservados.</p>
+          </div>
         </div>
       </footer>
     </div>
