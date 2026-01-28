@@ -1,6 +1,6 @@
 /**
- * URL Builder for Lovable Link Generator
- * Constructs hybrid URLs combining referral links with Build with URL parameters
+ * Construtor de URL para Gerador de Links Lovable
+ * Constrói URLs híbridas combinando links de indicação com parâmetros de Build with URL
  */
 
 export interface BuildURLOptions {
@@ -18,18 +18,18 @@ export interface GeneratedURL {
 }
 
 /**
- * Encodes a prompt string for safe URL transmission
- * Handles special characters and long prompts (up to 50k chars)
+ * Codifica uma string de prompt para transmissão segura via URL
+ * Lida com caracteres especiais e prompts longos (até 50k caracteres)
  */
 export function encodePrompt(prompt: string): string {
   return encodeURIComponent(prompt);
 }
 
 /**
- * Validates image URLs for Lovable compatibility
- * - Must be publicly accessible
- * - Supported formats: JPEG, PNG, WebP
- * - Maximum 10 images
+ * Valida URLs de imagens para compatibilidade com Lovable
+ * - Devem ser publicamente acessíveis
+ * - Formatos suportados: JPEG, PNG, WebP
+ * - Máximo de 10 imagens
  */
 export function validateImageUrls(urls: string[]): { valid: string[]; errors: string[] } {
   const errors: string[] = [];
@@ -37,7 +37,7 @@ export function validateImageUrls(urls: string[]): { valid: string[]; errors: st
   const supportedFormats = ['jpg', 'jpeg', 'png', 'webp'];
 
   if (urls.length > 10) {
-    errors.push(`Maximum 10 images allowed. You provided ${urls.length}.`);
+    errors.push(`Máximo de 10 imagens permitidas. Você forneceu ${urls.length}.`);
     return { valid: urls.slice(0, 10), errors };
   }
 
@@ -45,13 +45,13 @@ export function validateImageUrls(urls: string[]): { valid: string[]; errors: st
     try {
       new URL(url);
       const extension = url.split('.').pop()?.toLowerCase() || '';
-      if (!supportedFormats.includes(extension)) {
-        errors.push(`Image ${index + 1}: Unsupported format. Use JPEG, PNG, or WebP.`);
+        if (!supportedFormats.includes(extension)) {
+        errors.push(`Imagem ${index + 1}: Formato não suportado. Use JPEG, PNG ou WebP.`);
       } else {
         valid.push(url);
       }
     } catch {
-      errors.push(`Image ${index + 1}: Invalid URL format.`);
+      errors.push(`Imagem ${index + 1}: Formato de URL inválido.`);
     }
   });
 
@@ -59,31 +59,31 @@ export function validateImageUrls(urls: string[]): { valid: string[]; errors: st
 }
 
 /**
- * Builds a complete Lovable Build with URL hybrid link
- * Combines referral tracking with automatic app generation
+ * Constrói um link híbrido completo de Build with URL da Lovable
+ * Combina rastreamento de indicação com geração automática de app
  *
- * Structure: https://lovable.dev/?via=ID&autosubmit=true#prompt=ENCODED_PROMPT&images=URL1&images=URL2
+ * Estrutura: https://lovable.dev/?via=ID&autosubmit=true#prompt=ENCODED_PROMPT&images=URL1&images=URL2
  */
 export function buildLovableURL(options: BuildURLOptions): GeneratedURL {
   const { prompt, images = [], referralId, autosubmit = true } = options;
 
-  // Validate inputs
+  // Validar entradas
   if (!prompt.trim()) {
-    throw new Error('Prompt cannot be empty');
+    throw new Error('O prompt não pode estar vazio');
   }
 
   if (prompt.length > 50000) {
-    throw new Error('Prompt exceeds maximum length of 50,000 characters');
+    throw new Error('O prompt excede o comprimento máximo de 50.000 caracteres');
   }
 
   if (!referralId.trim()) {
-    throw new Error('Referral ID is required');
+    throw new Error('ID de indicação é obrigatório');
   }
 
-  // Build base URL
+  // Construir URL base
   const base = 'https://lovable.dev/';
 
-  // Build query string (server-side processing)
+  // Construir query string (processamento no servidor)
   const queryParams = new URLSearchParams();
   queryParams.append('via', referralId);
   if (autosubmit) {
@@ -91,24 +91,24 @@ export function buildLovableURL(options: BuildURLOptions): GeneratedURL {
   }
   const query = `?${queryParams.toString()}`;
 
-  // Build fragment (client-side processing)
+  // Construir fragmento (processamento no cliente)
   const fragmentParams = new URLSearchParams();
   fragmentParams.append('prompt', prompt);
 
-  // Add images to fragment
+  // Adicionar imagens ao fragmento
   images.forEach((imageUrl) => {
     fragmentParams.append('images', imageUrl);
   });
 
   const fragment = `#${fragmentParams.toString()}`;
 
-  // Combine all parts
+  // Combinar todas as partes
   const full = base + query + fragment;
 
-  // Validate URL length (browser limit is typically 2048-8192 chars)
+  // Validar comprimento da URL (limite do navegador é tipicamente 2048-8192 caracteres)
   if (full.length > 2048) {
     console.warn(
-      `Generated URL is ${full.length} characters long. Some browsers may truncate URLs over 2048 characters.`
+      `A URL gerada tem ${full.length} caracteres. Alguns navegadores podem truncar URLs com mais de 2048 caracteres.`
     );
   }
 
@@ -116,7 +116,7 @@ export function buildLovableURL(options: BuildURLOptions): GeneratedURL {
 }
 
 /**
- * Copies a URL to clipboard and returns success status
+ * Copia uma URL para a área de transferência e retorna o status de sucesso
  */
 export async function copyToClipboard(text: string): Promise<boolean> {
   try {
@@ -136,21 +136,21 @@ export async function copyToClipboard(text: string): Promise<boolean> {
       return success;
     }
   } catch (error) {
-    console.error('Failed to copy to clipboard:', error);
+    console.error('Falha ao copiar para a área de transferência:', error);
     return false;
   }
 }
 
 /**
- * Generates a shareable link preview text
+ * Gera um texto de preview de link compartilhável
  */
 export function generatePreviewText(prompt: string, referralId: string): string {
   const truncatedPrompt = prompt.length > 100 ? prompt.substring(0, 100) + '...' : prompt;
-  return `🔗 Lovable App Generator\n\n"${truncatedPrompt}"\n\nGenerated by: ${referralId}`;
+  return `🔗 Gerador de Apps Lovable\n\n"${truncatedPrompt}"\n\nGerado por: ${referralId}`;
 }
 
 /**
- * Extracts parameters from a generated URL for display/editing
+ * Extrai parâmetros de uma URL gerada para exibição/edição
  */
 export function parseGeneratedURL(url: string): Partial<BuildURLOptions> | null {
   try {

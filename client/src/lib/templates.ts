@@ -1,6 +1,6 @@
 /**
- * Pre-defined templates for Lovable app generation
- * Each template includes a prompt and optional reference images
+ * Templates pré-definidos para geração de apps na Lovable
+ * Cada template inclui um prompt e imagens de referência opcionais
  */
 
 export interface AppTemplate {
@@ -16,168 +16,168 @@ export interface AppTemplate {
 export const TEMPLATES: AppTemplate[] = [
   {
     id: 'todo-app',
-    name: 'To-Do App',
-    category: 'Productivity',
-    description: 'A simple task management application with add, edit, and delete functionality.',
-    prompt: `Create a modern to-do application with the following features:
-- Add new tasks with a text input and submit button
-- Display tasks in a clean list format
-- Mark tasks as complete with a checkbox
-- Delete tasks with a trash icon
-- Show task count (total and completed)
-- Store tasks in local storage
-- Use a modern, minimalist design with a light background
-- Include smooth transitions and hover effects`,
+    name: 'App de Tarefas',
+    category: 'Produtividade',
+    description: 'Uma aplicação simples de gerenciamento de tarefas com funcionalidades de adicionar, editar e deletar.',
+    prompt: `Crie uma aplicação moderna de gerenciamento de tarefas com os seguintes recursos:
+- Adicionar novas tarefas com um campo de texto e botão de envio
+- Exibir tarefas em um formato de lista limpa
+- Marcar tarefas como concluídas com um checkbox
+- Deletar tarefas com um ícone de lixeira
+- Mostrar contagem de tarefas (total e concluídas)
+- Armazenar tarefas no armazenamento local
+- Usar um design moderno e minimalista com fundo claro
+- Incluir transições suaves e efeitos de hover`,
   },
   {
     id: 'weather-app',
-    name: 'Weather Dashboard',
-    category: 'Utilities',
-    description: 'A weather application that displays current conditions and forecasts.',
-    prompt: `Build a weather dashboard application with these features:
-- Search for cities by name
-- Display current weather (temperature, condition, humidity, wind speed)
-- Show a 5-day forecast
-- Use weather icons to represent conditions
-- Display temperature in both Celsius and Fahrenheit
-- Include a clean, modern card-based layout
-- Add a gradient background that changes based on weather conditions
-- Implement smooth animations for data loading`,
+    name: 'Dashboard de Clima',
+    category: 'Utilitários',
+    description: 'Uma aplicação de clima que exibe condições atuais e previsões.',
+    prompt: `Construa um dashboard de clima com estes recursos:
+- Buscar cidades pelo nome
+- Exibir clima atual (temperatura, condição, umidade, velocidade do vento)
+- Mostrar previsão de 5 dias
+- Usar ícones de clima para representar condições
+- Exibir temperatura em Celsius e Fahrenheit
+- Incluir um layout limpo e moderno baseado em cards
+- Adicionar um fundo com gradiente que muda conforme o clima
+- Implementar animações suaves para carregamento de dados`,
   },
   {
     id: 'expense-tracker',
-    name: 'Expense Tracker',
-    category: 'Finance',
-    description: 'Track personal expenses with categories and visualizations.',
-    prompt: `Create an expense tracking application with:
-- Add expenses with amount, category, date, and description
-- Display expenses in a sortable table
-- Show total expenses and breakdown by category
-- Include a pie chart showing expense distribution
-- Filter expenses by category and date range
-- Delete individual expenses
-- Export data as CSV
-- Use a professional color scheme with clear typography
-- Implement responsive design for mobile and desktop`,
+    name: 'Rastreador de Despesas',
+    category: 'Finanças',
+    description: 'Rastreie despesas pessoais com categorias e visualizações.',
+    prompt: `Crie uma aplicação de rastreamento de despesas com:
+- Adicionar despesas com valor, categoria, data e descrição
+- Exibir despesas em uma tabela ordenável
+- Mostrar despesas totais e divisão por categoria
+- Incluir um gráfico de pizza mostrando distribuição de despesas
+- Filtrar despesas por categoria e intervalo de datas
+- Deletar despesas individuais
+- Exportar dados como CSV
+- Usar um esquema de cores profissional com tipografia clara
+- Implementar design responsivo para mobile e desktop`,
   },
   {
     id: 'portfolio-site',
-    name: 'Portfolio Website',
-    category: 'Portfolio',
-    description: 'A professional portfolio website to showcase projects and skills.',
-    prompt: `Build a personal portfolio website with:
-- Hero section with name, title, and call-to-action
-- About section with professional bio
-- Projects showcase with cards (image, title, description, link)
-- Skills section with skill tags or progress bars
-- Contact section with email form
-- Navigation menu with smooth scrolling
-- Responsive design for all devices
-- Dark/light theme toggle
-- Smooth animations and transitions
-- Professional typography and spacing`,
+    name: 'Site de Portfólio',
+    category: 'Portfólio',
+    description: 'Um site de portfólio profissional para showcasear projetos e habilidades.',
+    prompt: `Construa um site de portfólio pessoal com:
+- Seção hero com nome, título e chamada para ação
+- Seção sobre com biografia profissional
+- Showcase de projetos com cards (imagem, título, descrição, link)
+- Seção de habilidades com tags ou barras de progresso
+- Seção de contato com formulário de email
+- Menu de navegação com scroll suave
+- Design responsivo para todos os dispositivos
+- Alternância de tema claro/escuro
+- Animações e transições suaves
+- Tipografia profissional e espaçamento`,
   },
   {
     id: 'note-app',
-    name: 'Note-Taking App',
-    category: 'Productivity',
-    description: 'A simple note-taking application with rich text editing.',
-    prompt: `Create a note-taking application with:
-- Create, read, update, and delete notes
-- Rich text editor with formatting options (bold, italic, underline)
-- Search notes by title or content
-- Organize notes with tags or categories
-- Pin important notes to the top
-- Dark mode support
-- Auto-save functionality
-- Local storage persistence
-- Clean, distraction-free interface
-- Keyboard shortcuts for power users`,
+    name: 'App de Anotações',
+    category: 'Produtividade',
+    description: 'Uma aplicação simples de anotações com edição de texto rico.',
+    prompt: `Crie uma aplicação de anotações com:
+- Criar, ler, atualizar e deletar anotações
+- Editor de texto rico com opções de formatação (negrito, itálico, sublinhado)
+- Buscar anotações por título ou conteúdo
+- Organizar anotações com tags ou categorias
+- Fixar anotações importantes no topo
+- Suporte a modo escuro
+- Funcionalidade de auto-save
+- Persistência de armazenamento local
+- Interface limpa e sem distrações
+- Atalhos de teclado para usuários avançados`,
   },
   {
     id: 'calculator',
-    name: 'Advanced Calculator',
-    category: 'Utilities',
-    description: 'A scientific calculator with advanced mathematical functions.',
-    prompt: `Build a scientific calculator with:
-- Basic operations (add, subtract, multiply, divide)
-- Advanced functions (square root, power, trigonometric)
-- Calculation history display
-- Clear and delete buttons
-- Keyboard support for input
-- Large, readable display
-- Button grid layout with clear organization
-- Error handling for invalid operations
-- Modern design with good contrast
-- Responsive for different screen sizes`,
+    name: 'Calculadora Avançada',
+    category: 'Utilitários',
+    description: 'Uma calculadora científica com funções matemáticas avançadas.',
+    prompt: `Construa uma calculadora científica com:
+- Operações básicas (adição, subtração, multiplicação, divisão)
+- Funções avançadas (raiz quadrada, potência, trigonométricas)
+- Exibição de histórico de cálculos
+- Botões de limpar e deletar
+- Suporte a entrada por teclado
+- Display grande e legível
+- Layout de grade de botões com organização clara
+- Tratamento de erros para operações inválidas
+- Design moderno com bom contraste
+- Responsivo para diferentes tamanhos de tela`,
   },
   {
     id: 'kanban-board',
-    name: 'Kanban Board',
-    category: 'Productivity',
-    description: 'A drag-and-drop kanban board for task management.',
-    prompt: `Create a kanban board application with:
-- Three columns: To Do, In Progress, Done
-- Add cards with task title and description
-- Drag and drop cards between columns
-- Delete cards with a delete button
-- Edit card content inline
-- Show card count in each column
-- Persistent storage using local storage
-- Smooth drag animations
-- Clean, professional design
-- Add new column functionality`,
+    name: 'Quadro Kanban',
+    category: 'Produtividade',
+    description: 'Um quadro kanban com drag-and-drop para gerenciamento de tarefas.',
+    prompt: `Crie uma aplicação de quadro kanban com:
+- Três colunas: A Fazer, Em Progresso, Concluído
+- Adicionar cards com título e descrição da tarefa
+- Arrastar e soltar cards entre colunas
+- Deletar cards com um botão de delete
+- Editar conteúdo do card inline
+- Mostrar contagem de cards em cada coluna
+- Armazenamento persistente usando armazenamento local
+- Animações suaves de drag
+- Design limpo e profissional
+- Funcionalidade de adicionar nova coluna`,
   },
   {
     id: 'color-palette',
-    name: 'Color Palette Generator',
-    category: 'Design Tools',
-    description: 'Generate and manage color palettes for design projects.',
-    prompt: `Build a color palette generator with:
-- Generate random color palettes
-- Display colors in hex, RGB, and HSL formats
-- Lock individual colors to keep them while regenerating
-- Copy color values to clipboard
-- Export palette as JSON or CSS
-- Save favorite palettes
-- Search for color names
-- Color harmony suggestions (complementary, analogous, triadic)
-- Adjust palette saturation and brightness
-- Clean, visually appealing interface`,
+    name: 'Gerador de Paleta de Cores',
+    category: 'Ferramentas de Design',
+    description: 'Gere e gerencie paletas de cores para projetos de design.',
+    prompt: `Construa um gerador de paleta de cores com:
+- Gerar paletas de cores aleatórias
+- Exibir cores em formatos hex, RGB e HSL
+- Bloquear cores individuais para mantê-las ao regenerar
+- Copiar valores de cores para a área de transferência
+- Exportar paleta como JSON ou CSS
+- Salvar paletas favoritas
+- Buscar por nomes de cores
+- Sugestões de harmonia de cores (complementar, análoga, tríade)
+- Ajustar saturação e brilho da paleta
+- Interface visualmente atraente e limpa`,
   },
   {
     id: 'timer-app',
-    name: 'Pomodoro Timer',
-    category: 'Productivity',
-    description: 'A Pomodoro timer for focused work sessions.',
-    prompt: `Create a Pomodoro timer application with:
-- Work session timer (default 25 minutes)
-- Break timer (default 5 minutes)
-- Long break option (15 minutes)
-- Start, pause, and reset controls
-- Sound notification when timer ends
-- Display current session type
-- Session counter (track completed sessions)
-- Customizable timer durations
-- Circular progress indicator
-- Keyboard shortcuts for controls`,
+    name: 'Timer Pomodoro',
+    category: 'Produtividade',
+    description: 'Um timer Pomodoro para sessões de trabalho focado.',
+    prompt: `Crie uma aplicação de timer Pomodoro com:
+- Timer de sessão de trabalho (padrão 25 minutos)
+- Timer de pausa (padrão 5 minutos)
+- Opção de pausa longa (15 minutos)
+- Controles de iniciar, pausar e resetar
+- Notificação sonora quando o timer termina
+- Exibir tipo de sessão atual
+- Contador de sessões (rastrear sessões concluídas)
+- Durações de timer customizáveis
+- Indicador de progresso circular
+- Atalhos de teclado para controles`,
   },
   {
     id: 'qr-code-gen',
-    name: 'QR Code Generator',
-    category: 'Utilities',
-    description: 'Generate QR codes from text or URLs.',
-    prompt: `Build a QR code generator with:
-- Input field for text or URL
-- Real-time QR code generation
-- Download QR code as PNG or SVG
-- Adjust QR code size
-- Change QR code color (foreground and background)
-- Add logo/image to center of QR code
-- Error correction level selection
-- Preview of generated QR code
-- Copy QR code data to clipboard
-- History of recently generated codes`,
+    name: 'Gerador de Código QR',
+    category: 'Utilitários',
+    description: 'Gere códigos QR a partir de texto ou URLs.',
+    prompt: `Construa um gerador de código QR com:
+- Campo de entrada para texto ou URL
+- Geração de código QR em tempo real
+- Download do código QR como PNG ou SVG
+- Ajustar tamanho do código QR
+- Mudar cor do código QR (primeiro plano e fundo)
+- Adicionar logo/imagem ao centro do código QR
+- Seleção de nível de correção de erro
+- Preview do código QR gerado
+- Copiar dados do código QR para a área de transferência
+- Histórico de códigos QR gerados recentemente`,
   },
 ];
 

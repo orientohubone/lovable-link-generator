@@ -7,15 +7,15 @@ import { TEMPLATES, getAllCategories, getTemplatesByCategory } from '@/lib/templ
 import { toast } from 'sonner';
 
 /**
- * Lovable Link Generator - Main Application
+ * Gerador de Links Lovable - Aplicação Principal
  * 
- * This component provides a user interface to:
- * 1. Select or create prompts for Lovable app generation
- * 2. Generate hybrid URLs combining referral links with Build with URL parameters
- * 3. Copy and share generated links with conversion guidance
+ * Este componente fornece uma interface para:
+ * 1. Selecionar ou criar prompts para geração de apps na Lovable
+ * 2. Gerar URLs híbridas combinando links de indicação com parâmetros de Build with URL
+ * 3. Copiar e compartilhar links gerados com orientação de conversão
  */
 export default function Home() {
-  // State management
+  // Gerenciamento de estado
   const [referralId, setReferralId] = useState('');
   const [customPrompt, setCustomPrompt] = useState('');
   const [selectedTemplate, setSelectedTemplate] = useState<string | null>(null);
@@ -23,20 +23,20 @@ export default function Home() {
   const [copied, setCopied] = useState(false);
   const [showConversionGuide, setShowConversionGuide] = useState(false);
 
-  // Get the current prompt (from template or custom)
+  // Obter o prompt atual (do template ou customizado)
   const currentPrompt = selectedTemplate
     ? TEMPLATES.find((t) => t.id === selectedTemplate)?.prompt || ''
     : customPrompt;
 
-  // Generate URL handler
+  // Handler para gerar URL
   const handleGenerateUrl = () => {
     if (!referralId.trim()) {
-      toast.error('Please enter your Lovable referral ID');
+      toast.error('Por favor, insira seu ID de indicação da Lovable');
       return;
     }
 
     if (!currentPrompt.trim()) {
-      toast.error('Please select a template or enter a custom prompt');
+      toast.error('Por favor, selecione um template ou insira um prompt customizado');
       return;
     }
 
@@ -49,27 +49,27 @@ export default function Home() {
 
       setGeneratedUrl(result.full);
       setShowConversionGuide(true);
-      toast.success('URL generated successfully!');
+      toast.success('URL gerada com sucesso!');
     } catch (error) {
-      toast.error(error instanceof Error ? error.message : 'Failed to generate URL');
+      toast.error(error instanceof Error ? error.message : 'Falha ao gerar URL');
     }
   };
 
-  // Copy URL handler
+  // Handler para copiar URL
   const handleCopyUrl = async () => {
     if (!generatedUrl) return;
 
     const success = await copyToClipboard(generatedUrl);
     if (success) {
       setCopied(true);
-      toast.success('URL copied to clipboard!');
+      toast.success('URL copiada para a área de transferência!');
       setTimeout(() => setCopied(false), 2000);
     } else {
-      toast.error('Failed to copy URL');
+      toast.error('Falha ao copiar URL');
     }
   };
 
-  // Open URL handler
+  // Handler para abrir URL
   const handleOpenUrl = () => {
     if (generatedUrl) {
       window.open(generatedUrl, '_blank');
@@ -80,50 +80,50 @@ export default function Home() {
 
   return (
     <div className="min-h-screen bg-white">
-      {/* Header */}
+      {/* Cabeçalho */}
       <header className="border-b border-border">
         <div className="container py-8 md:py-12">
           <h1 className="text-5xl md:text-6xl font-black text-foreground mb-2">
-            Lovable Link Generator
+            Gerador de Links Lovable
           </h1>
           <p className="text-lg text-muted-foreground max-w-2xl">
-            Create shareable links that automatically generate Lovable apps with your referral code.
-            Maximize conversions and earn bonus credits.
+            Crie links compartilháveis que geram automaticamente apps na Lovable com seu código de indicação.
+            Maximize conversões e ganhe créditos bônus.
           </p>
         </div>
       </header>
 
-      {/* Main Content */}
+      {/* Conteúdo Principal */}
       <main className="container py-12">
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          {/* Left Column - Generator */}
+          {/* Coluna Esquerda - Gerador */}
           <div className="lg:col-span-2">
             <div className="space-y-8">
-              {/* Referral ID Input */}
+              {/* Input de ID de Indicação */}
               <section className="border-t-4 border-accent pt-6">
-                <h2 className="text-2xl font-bold text-foreground mb-4">Your Referral ID</h2>
+                <h2 className="text-2xl font-bold text-foreground mb-4">Seu ID de Indicação</h2>
                 <p className="text-muted-foreground mb-4">
-                  Enter your Lovable referral ID to track conversions and earn bonus credits.
+                  Insira seu ID de indicação da Lovable para rastrear conversões e ganhar créditos bônus.
                 </p>
                 <input
                   type="text"
                   value={referralId}
                   onChange={(e) => setReferralId(e.target.value)}
-                  placeholder="your-referral-id"
+                  placeholder="seu-id-de-indicacao"
                   className="w-full px-4 py-3 border border-border rounded-md bg-secondary text-foreground placeholder-muted-foreground focus:outline-none focus:ring-2 focus:ring-accent"
                 />
               </section>
 
-              {/* Prompt Selection */}
+              {/* Seleção de Prompt */}
               <section className="border-t-4 border-accent pt-6">
-                <h2 className="text-2xl font-bold text-foreground mb-4">Select or Create Prompt</h2>
+                <h2 className="text-2xl font-bold text-foreground mb-4">Selecione ou Crie um Prompt</h2>
                 <Tabs defaultValue="templates" className="w-full">
                   <TabsList className="grid w-full grid-cols-2 mb-6">
                     <TabsTrigger value="templates">Templates</TabsTrigger>
-                    <TabsTrigger value="custom">Custom Prompt</TabsTrigger>
+                    <TabsTrigger value="custom">Prompt Customizado</TabsTrigger>
                   </TabsList>
 
-                  {/* Templates Tab */}
+                  {/* Aba de Templates */}
                   <TabsContent value="templates" className="space-y-4">
                     <div className="space-y-4">
                       {categories.map((category) => (
@@ -157,10 +157,10 @@ export default function Home() {
                     </div>
                   </TabsContent>
 
-                  {/* Custom Prompt Tab */}
+                  {/* Aba de Prompt Customizado */}
                   <TabsContent value="custom" className="space-y-4">
                     <p className="text-muted-foreground text-sm">
-                      Write a detailed prompt describing the app you want to create. Maximum 50,000 characters.
+                      Escreva um prompt detalhado descrevendo o app que deseja criar. Máximo de 50.000 caracteres.
                     </p>
                     <textarea
                       value={customPrompt}
@@ -168,34 +168,34 @@ export default function Home() {
                         setCustomPrompt(e.target.value);
                         setSelectedTemplate(null);
                       }}
-                      placeholder="Describe the app you want to create..."
+                      placeholder="Descreva o app que deseja criar..."
                       className="w-full h-48 px-4 py-3 border border-border rounded-md bg-secondary text-foreground placeholder-muted-foreground focus:outline-none focus:ring-2 focus:ring-accent resize-none"
                     />
                     <div className="text-xs text-muted-foreground">
-                      {customPrompt.length} / 50,000 characters
+                      {customPrompt.length} / 50.000 caracteres
                     </div>
                   </TabsContent>
                 </Tabs>
               </section>
 
-              {/* Generate Button */}
+              {/* Botão de Geração */}
               <Button
                 onClick={handleGenerateUrl}
                 size="lg"
                 className="w-full bg-accent hover:bg-accent/90 text-accent-foreground font-bold text-lg py-6"
               >
-                Generate Link
+                Gerar Link
               </Button>
             </div>
           </div>
 
-          {/* Right Column - Results & Guide */}
+          {/* Coluna Direita - Resultados e Guia */}
           <div className="lg:col-span-1">
             {generatedUrl ? (
               <div className="space-y-6">
-                {/* Generated URL Display */}
+                {/* Exibição da URL Gerada */}
                 <div className="bg-foreground text-accent-foreground p-6 rounded-md space-y-4">
-                  <h3 className="font-bold text-lg">Your Generated Link</h3>
+                  <h3 className="font-bold text-lg">Seu Link Gerado</h3>
                   <div className="bg-black p-3 rounded text-xs break-all font-mono text-accent overflow-auto max-h-32">
                     {generatedUrl}
                   </div>
@@ -207,7 +207,7 @@ export default function Home() {
                       className="flex-1 border-accent-foreground text-accent-foreground hover:bg-accent-foreground hover:text-foreground"
                     >
                       {copied ? <Check className="w-4 h-4 mr-2" /> : <Copy className="w-4 h-4 mr-2" />}
-                      {copied ? 'Copied!' : 'Copy'}
+                      {copied ? 'Copiado!' : 'Copiar'}
                     </Button>
                     <Button
                       onClick={handleOpenUrl}
@@ -216,44 +216,44 @@ export default function Home() {
                       className="flex-1 border-accent-foreground text-accent-foreground hover:bg-accent-foreground hover:text-foreground"
                     >
                       <ExternalLink className="w-4 h-4 mr-2" />
-                      Open
+                      Abrir
                     </Button>
                   </div>
                 </div>
 
-                {/* Conversion Guide */}
+                {/* Guia de Conversão */}
                 {showConversionGuide && (
                   <div className="border-l-4 border-accent bg-secondary p-6 rounded-md space-y-4">
-                    <h3 className="font-bold text-lg text-foreground">📋 Conversion Checklist</h3>
+                    <h3 className="font-bold text-lg text-foreground">📋 Checklist de Conversão</h3>
                     <div className="space-y-3 text-sm">
                       <div className="flex gap-3">
                         <div className="text-accent font-bold">1</div>
                         <div>
-                          <p className="font-bold text-foreground">Share the link</p>
-                          <p className="text-muted-foreground">Send it to friends or embed on your site</p>
+                          <p className="font-bold text-foreground">Compartilhe o link</p>
+                          <p className="text-muted-foreground">Envie para amigos ou incorpore no seu site</p>
                         </div>
                       </div>
                       <div className="flex gap-3">
                         <div className="text-accent font-bold">2</div>
                         <div>
-                          <p className="font-bold text-foreground">App generates automatically</p>
-                          <p className="text-muted-foreground">Lovable will create the app from your prompt</p>
+                          <p className="font-bold text-foreground">App é gerado automaticamente</p>
+                          <p className="text-muted-foreground">A Lovable criará o app a partir do seu prompt</p>
                         </div>
                       </div>
                       <div className="flex gap-3">
                         <div className="text-accent font-bold">3</div>
                         <div>
-                          <p className="font-bold text-foreground">User publishes the app</p>
+                          <p className="font-bold text-foreground">Usuário publica o app</p>
                           <p className="text-muted-foreground">
-                            <strong>Critical:</strong> They must click "Publish" to activate your bonus
+                            <strong>Crítico:</strong> Ele deve clicar em "Publicar" para ativar seu bônus
                           </p>
                         </div>
                       </div>
                       <div className="flex gap-3">
                         <div className="text-accent font-bold">✓</div>
                         <div>
-                          <p className="font-bold text-foreground">Earn 10 credits!</p>
-                          <p className="text-muted-foreground">Both you and the user get bonus credits</p>
+                          <p className="font-bold text-foreground">Ganhe 10 créditos!</p>
+                          <p className="text-muted-foreground">Você e o usuário recebem créditos bônus</p>
                         </div>
                       </div>
                     </div>
@@ -263,9 +263,9 @@ export default function Home() {
             ) : (
               <div className="bg-secondary p-6 rounded-md text-center space-y-4">
                 <div className="text-4xl">🔗</div>
-                <p className="font-bold text-foreground">Generate a link to get started</p>
+                <p className="font-bold text-foreground">Gere um link para começar</p>
                 <p className="text-sm text-muted-foreground">
-                  Fill in your referral ID and select or create a prompt above
+                  Preencha seu ID de indicação e selecione ou crie um prompt acima
                 </p>
               </div>
             )}
@@ -273,11 +273,11 @@ export default function Home() {
         </div>
       </main>
 
-      {/* Footer */}
+      {/* Rodapé */}
       <footer className="border-t border-border mt-16">
         <div className="container py-8 text-center text-sm text-muted-foreground">
           <p>
-            Lovable Link Generator • Maximize conversions with automated app creation
+            Gerador de Links Lovable • Maximize conversões com criação automática de apps
           </p>
         </div>
       </footer>
