@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { ScrollArea } from '@/components/ui/scroll-area';
-import { Copy, ExternalLink, Check, Sparkles, Zap, Shield, ArrowRight } from 'lucide-react';
+import { Copy, ExternalLink, Check, Sparkles, Zap, Shield, ArrowRight, ChevronDown, ChevronRight } from 'lucide-react';
 import { buildLovableURL, copyToClipboard } from '@/lib/urlBuilder';
 import { TEMPLATES, getAllCategories, getTemplatesByCategory } from '@/lib/templates';
 import { toast } from 'sonner';
@@ -18,6 +18,15 @@ export default function Home() {
   const [generatedUrl, setGeneratedUrl] = useState<string>('');
   const [copied, setCopied] = useState(false);
   const [showConversionGuide, setShowConversionGuide] = useState(false);
+  const [expandedCategories, setExpandedCategories] = useState<string[]>(['Alta Escala: Ouro do Builder']);
+
+  const toggleCategory = (category: string) => {
+    setExpandedCategories(prev =>
+      prev.includes(category)
+        ? prev.filter(c => c !== category)
+        : [...prev, category]
+    );
+  };
 
   const currentPrompt = selectedTemplate
     ? TEMPLATES.find((t) => t.id === selectedTemplate)?.prompt || ''
@@ -154,16 +163,21 @@ export default function Home() {
                     <ScrollArea className="h-[600px] -mx-4 px-6 [mask-image:linear-gradient(to_bottom,transparent,black_2%,black_98%,transparent)]">
                       <div className="py-8 px-6">
                         {categories.map(cat => (
-                          <div key={cat} className="mb-12 last:mb-0">
-                            <div className="flex items-center gap-4 mb-6 sticky top-0 z-20 py-2">
+                          <div key={cat} className="mb-6 last:mb-0">
+                            <button
+                              onClick={() => toggleCategory(cat)}
+                              className="w-full flex items-center gap-4 mb-4 sticky top-0 z-20 py-2 group/header"
+                            >
                               {(() => {
                                 const isOuro = cat.includes('Ouro');
                                 const isElite = cat.includes('Elite');
                                 const isEssencial = cat.includes('Essencial');
+                                const isExpanded = expandedCategories.includes(cat);
 
                                 return (
                                   <div className={`
-                                    backdrop-blur-md px-5 py-2 rounded-full border shadow-lg transition-all
+                                    backdrop-blur-md px-5 py-2 rounded-full border shadow-lg transition-all flex items-center gap-3
+                                    ${isExpanded ? 'ring-1 ring-white/10' : ''}
                                     ${isOuro
                                       ? 'bg-gradient-to-r from-amber-500/20 to-yellow-500/20 border-yellow-500/50 shadow-yellow-500/10'
                                       : isElite
@@ -178,37 +192,55 @@ export default function Home() {
                                       {isOuro && <Sparkles className="w-3 h-3" />}
                                       {cat}
                                     </h3>
+                                    {isExpanded ? (
+                                      <ChevronDown className={`w-3 h-3 ${isOuro ? 'text-yellow-400' : isElite ? 'text-primary' : 'text-muted-foreground'}`} />
+                                    ) : (
+                                      <ChevronRight className={`w-3 h-3 ${isOuro ? 'text-yellow-400' : isElite ? 'text-primary' : 'text-muted-foreground'}`} />
+                                    )}
                                   </div>
                                 );
                               })()}
-                              <div className="h-[1px] flex-1 bg-gradient-to-r from-white/5 to-transparent" />
-                            </div>
-                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                              {getTemplatesByCategory(cat).map(t => (
-                                <motion.button
-                                  whileHover={{ scale: 1.02, translateY: -2 }}
-                                  whileTap={{ scale: 0.98 }}
-                                  onClick={() => { setSelectedTemplate(t.id); setCustomPrompt(''); }}
-                                  className={`p-6 text-left rounded-2xl border transition-all relative overflow-hidden group/card ${selectedTemplate === t.id
-                                    ? 'bg-primary/20 border-primary ring-1 ring-primary shadow-[0_0_40px_rgba(101,31,255,0.25)]'
-                                    : cat.includes('Ouro')
-                                      ? 'bg-amber-500/5 border-amber-500/10 hover:border-amber-500/40 hover:bg-amber-500/10'
-                                      : cat.includes('Elite')
-                                        ? 'bg-primary/5 border-primary/10 hover:border-primary/40 hover:bg-primary/10'
-                                        : 'bg-white/5 border-white/5 hover:border-white/20 hover:bg-white/10'
-                                    }`}
+                              <div className="h-[1px] flex-1 bg-gradient-to-r from-white/5 to-transparent opacity-20 group-hover/header:opacity-50 transition-opacity" />
+                            </button>
+
+                            <AnimatePresence>
+                              {expandedCategories.includes(cat) && (
+                                <motion.div
+                                  initial={{ height: 0, opacity: 0 }}
+                                  animate={{ height: 'auto', opacity: 1 }}
+                                  exit={{ height: 0, opacity: 0 }}
+                                  transition={{ duration: 0.3, ease: 'easeInOut' }}
+                                  className="overflow-hidden -mx-4 px-4"
                                 >
-                                  {selectedTemplate === t.id && (
-                                    <div className="absolute top-0 right-0 w-12 h-12 bg-primary/20 blur-2xl rounded-full" />
-                                  )}
-                                  <div className="flex justify-between items-start mb-3">
-                                    <span className={`font-black text-base leading-tight ${selectedTemplate === t.id ? 'text-white' : 'text-white/80 group-hover/card:text-white'}`}>{t.name}</span>
-                                    {selectedTemplate === t.id && <Zap className="w-4 h-4 text-primary fill-current drop-shadow-[0_0_8px_var(--glow-primary)]" />}
+                                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6 pb-8 pt-2">
+                                    {getTemplatesByCategory(cat).map(t => (
+                                      <motion.button
+                                        whileHover={{ scale: 1.02, translateY: -2 }}
+                                        whileTap={{ scale: 0.98 }}
+                                        onClick={() => { setSelectedTemplate(t.id); setCustomPrompt(''); }}
+                                        className={`p-6 text-left rounded-2xl border transition-all relative overflow-hidden group/card ${selectedTemplate === t.id
+                                          ? 'bg-primary/20 border-primary ring-1 ring-primary shadow-[0_0_40px_rgba(101,31,255,0.25)]'
+                                          : cat.includes('Ouro')
+                                            ? 'bg-amber-500/5 border-amber-500/10 hover:border-amber-500/40 hover:bg-amber-500/10'
+                                            : cat.includes('Elite')
+                                              ? 'bg-primary/5 border-primary/10 hover:border-primary/40 hover:bg-primary/10'
+                                              : 'bg-white/5 border-white/5 hover:border-white/20 hover:bg-white/10'
+                                          }`}
+                                      >
+                                        {selectedTemplate === t.id && (
+                                          <div className="absolute top-0 right-0 w-12 h-12 bg-primary/20 blur-2xl rounded-full" />
+                                        )}
+                                        <div className="flex justify-between items-start mb-3">
+                                          <span className={`font-black text-base leading-tight ${selectedTemplate === t.id ? 'text-white' : 'text-white/80 group-hover/card:text-white'}`}>{t.name}</span>
+                                          {selectedTemplate === t.id && <Zap className="w-4 h-4 text-primary fill-current drop-shadow-[0_0_8px_var(--glow-primary)]" />}
+                                        </div>
+                                        <p className="text-[11px] text-muted-foreground/80 leading-relaxed line-clamp-2 font-medium">{t.description}</p>
+                                      </motion.button>
+                                    ))}
                                   </div>
-                                  <p className="text-[11px] text-muted-foreground/80 leading-relaxed line-clamp-2 font-medium">{t.description}</p>
-                                </motion.button>
-                              ))}
-                            </div>
+                                </motion.div>
+                              )}
+                            </AnimatePresence>
                           </div>
                         ))}
                       </div>

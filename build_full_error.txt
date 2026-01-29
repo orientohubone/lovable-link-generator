@@ -1,0 +1,98 @@
+﻿
+> lovable-link-generator@1.0.0 build
+> vite build
+
+[36mvite v7.3.1 [32mbuilding client environment for production...[36m[39m
+node.exe : [33m[1m(!) 
+%VITE_ANALYTICS_ENDPOINT% is 
+not defined in env variables 
+found in /index.html. Is the 
+variable mistyped?[22m[39m
+No C:\Program 
+Files\nodejs\npm.ps1:29 
+caractere:3
++   & $NODE_EXE $NPM_CLI_JS 
+$args
++   
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo           
+   : NotSpecified: ([33m[  
+  1m(!) %V...yped?[22m[3   
+ 9m:String) [], RemoteExc    
+eption
+    + FullyQualifiedErrorId  
+   : NativeCommandError
+ 
+[33m[1m(!) 
+%VITE_ANALYTICS_WEBSITE_ID% 
+is not defined in env 
+variables found in 
+/index.html. Is the variable 
+mistyped?[22m[39m
+<script src="%VITE_ANALYTICS_
+ENDPOINT%/umami"> in 
+"/index.html" can't be 
+bundled without 
+type="module" attribute
+transforming...
+[32mÔ£ô[39m 4 modules transformed.
+[31mÔ£ù[39m Build failed 
+in 151ms
+[31merror during build:
+[31m[@tailwindcss/vite:gener
+ate:build] Cannot apply 
+unknown utility class 
+`bg-mesh`[31m
+file: [36mC:/Users/ferna/Dow
+nloads/lovable-link-generator
+/client/src/index.css[31m
+    at onInvalidCandidate (fi
+le:///C:/Users/ferna/Download
+s/lovable-link-generator/node
+_modules/tailwindcss/dist/chu
+nk-CT46QCH7.mjs:21:1511)
+    at Ce (file:///C:/Users/f
+erna/Downloads/lovable-link-g
+enerator/node_modules/tailwin
+dcss/dist/chunk-CT46QCH7.mjs:
+16:36652)
+    at file:///C:/Users/ferna
+/Downloads/lovable-link-gener
+ator/node_modules/tailwindcss
+/dist/chunk-CT46QCH7.mjs:21:3
+55
+    at br (file:///C:/Users/f
+erna/Downloads/lovable-link-g
+enerator/node_modules/tailwin
+dcss/dist/chunk-CT46QCH7.mjs:
+3:1718)
+    at I (file:///C:/Users/fe
+rna/Downloads/lovable-link-ge
+nerator/node_modules/tailwind
+css/dist/chunk-CT46QCH7.mjs:3
+:1377)
+    at Ae (file:///C:/Users/f
+erna/Downloads/lovable-link-g
+enerator/node_modules/tailwin
+dcss/dist/chunk-CT46QCH7.mjs:
+21:172)
+    at Wi (file:///C:/Users/f
+erna/Downloads/lovable-link-g
+enerator/node_modules/tailwin
+dcss/dist/chunk-CT46QCH7.mjs:
+38:294)
+    at async Za (file:///C:/U
+sers/ferna/Downloads/lovable-
+link-generator/node_modules/t
+ailwindcss/dist/chunk-CT46QCH
+7.mjs:38:631)
+    at async rf (file:///C:/U
+sers/ferna/Downloads/lovable-
+link-generator/node_modules/t
+ailwindcss/dist/chunk-CT46QCH
+7.mjs:38:1406)
+    at async lu (file:///C:/U
+sers/ferna/Downloads/lovable-
+link-generator/node_modules/@
+tailwindcss/node/dist/index.m
+js:10:3458)[39m
