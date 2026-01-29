@@ -94,10 +94,12 @@ const CategoryFolder: React.FC<CategoryFolderProps> = ({
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
       className={cn(
-        "relative flex flex-col items-center justify-center p-8 rounded-3xl cursor-pointer bg-black/20 border border-white/5 transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] hover:shadow-2xl group",
+        "relative flex flex-col items-center justify-center p-6 md:p-8 rounded-3xl cursor-pointer bg-black/20 border border-white/5 transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] hover:shadow-2xl group",
         isOuro ? "hover:border-amber-500/40 hover:shadow-amber-500/10" : isElite ? "hover:border-primary/40 hover:shadow-primary/10" : "hover:border-white/20"
       )}
       style={{
+        width: "100%",
+        maxWidth: "320px",
         minHeight: "280px",
         perspective: "1200px",
         transform: isHovered ? "scale(1.02) rotate(-1deg)" : "scale(1) rotate(0deg)"
@@ -289,33 +291,33 @@ export default function Home() {
             <div className="w-8 h-8 bg-gradient-to-tr from-primary to-accent rounded-lg flex items-center justify-center border border-white/20">
               <Zap className="w-5 h-5 text-white fill-current" />
             </div>
-            <span className="font-black text-xl tracking-tighter text-glow">LOVABLE GEN</span>
+            <span className="font-black text-lg sm:text-xl tracking-tighter text-glow">LOVABLE GEN</span>
           </motion.div>
-          <div className="flex gap-8">
-            <a href="/" className="text-sm font-bold opacity-70 hover:opacity-100 hover:text-primary transition-all">PRODUTO</a>
-            <a href="/faq" className="text-sm font-bold opacity-70 hover:opacity-100 hover:text-primary transition-all">FAQ</a>
+          <div className="flex gap-4 sm:gap-8">
+            <a href="/" className="text-[10px] sm:text-sm font-bold opacity-70 hover:opacity-100 hover:text-primary transition-all uppercase tracking-widest">PRODUTO</a>
+            <a href="/faq" className="text-[10px] sm:text-sm font-bold opacity-70 hover:opacity-100 hover:text-primary transition-all uppercase tracking-widest">FAQ</a>
           </div>
         </div>
       </nav>
 
-      <main className="px-6 py-20 relative z-10">
+      <main className="px-4 md:px-6 py-12 md:py-20 relative z-10">
         {/* Hero Section */}
-        <section className="text-center mb-24">
+        <section className="text-center mb-12 md:mb-24">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
           >
-            <h1 className="text-6xl md:text-8xl font-black mb-6 tracking-tight leading-none text-white">
-              Crie Apps Lovable <br /> Num Único Click.
+            <h1 className="text-4xl md:text-6xl lg:text-8xl font-black mb-6 tracking-tight leading-tight md:leading-none text-white px-2">
+              Crie Apps Lovable <br className="hidden md:block" /> Num Único Click.
             </h1>
-            <p className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto mb-10 leading-relaxed">
+            <p className="text-base md:text-xl text-muted-foreground max-w-2xl mx-auto mb-10 leading-relaxed px-4">
               Vá além dos prompts simples. Gere <span className="text-primary font-bold">Blueprints de Elite</span> validados para escala e dominância de mercado através do poder do Lovable Engine.
             </p>
           </motion.div>
         </section>
 
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 max-w-[1600px] mx-auto">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-16 max-w-[1600px] mx-auto">
           {/* Editor Area */}
           <motion.div
             initial={{ opacity: 0, y: 40 }}
@@ -343,25 +345,25 @@ export default function Home() {
             </div>
 
             {/* Step 2: Content */}
-            <div className="glass p-12 rounded-[3rem] border-white/10">
-              <h2 className="text-2xl font-black mb-8 flex items-center gap-3">
+            <div className="glass p-6 md:p-12 rounded-[2rem] md:rounded-[3rem] border-white/10">
+              <h2 className="text-xl md:text-2xl font-black mb-8 flex items-center gap-3">
                 <span className="w-10 h-10 rounded-xl bg-primary/20 text-primary flex items-center justify-center text-sm font-black border border-primary/30">02</span>
                 Defina sua Aplicação
               </h2>
               <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-                <TabsList className="relative grid w-full grid-cols-2 bg-black/60 p-1.5 rounded-2xl mb-12 border border-white/5 h-[68px]">
+                <TabsList className="relative grid w-full grid-cols-2 bg-black/60 p-1.5 rounded-2xl mb-8 md:mb-12 border border-white/5 h-[60px] md:h-[68px]">
                   <TabsTrigger
                     value="templates"
-                    className="relative z-10 h-full rounded-xl font-black text-[10px] tracking-[0.2em] transition-all data-[state=active]:text-white data-[state=inactive]:text-white/30 group"
+                    className="relative z-10 h-full rounded-xl font-black text-[9px] md:text-[10px] tracking-wider md:tracking-[0.2em] transition-all data-[state=active]:text-white data-[state=inactive]:text-white/30 group px-2"
                   >
-                    <div className="flex items-center gap-3 relative z-20">
+                    <div className="flex items-center gap-2 md:gap-3 relative z-20 text-[8px] sm:text-[10px]">
                       <div className={cn(
-                        "w-8 h-8 rounded-lg flex items-center justify-center transition-all duration-500",
+                        "w-7 h-7 md:w-8 md:h-8 rounded-lg flex items-center justify-center transition-all duration-500",
                         activeTab === 'templates' ? "bg-white/20" : "bg-white/5 group-hover:bg-white/10"
                       )}>
-                        <LayoutGrid className="w-4 h-4" />
+                        <LayoutGrid className="w-3.5 h-3.5 md:w-4 md:h-4" />
                       </div>
-                      TEMPLATES DE ELITE
+                      <span className="truncate">TEMPLATES</span>
                     </div>
                     {activeTab === 'templates' && (
                       <motion.div
@@ -373,16 +375,16 @@ export default function Home() {
                   </TabsTrigger>
                   <TabsTrigger
                     value="custom"
-                    className="relative z-10 h-full rounded-xl font-black text-[10px] tracking-[0.2em] transition-all data-[state=active]:text-white data-[state=inactive]:text-white/30 group"
+                    className="relative z-10 h-full rounded-xl font-black text-[9px] md:text-[10px] tracking-wider md:tracking-[0.2em] transition-all data-[state=active]:text-white data-[state=inactive]:text-white/30 group px-2"
                   >
-                    <div className="flex items-center gap-3 relative z-20">
+                    <div className="flex items-center gap-2 md:gap-3 relative z-20 text-[8px] sm:text-[10px]">
                       <div className={cn(
-                        "w-8 h-8 rounded-lg flex items-center justify-center transition-all duration-500",
+                        "w-7 h-7 md:w-8 md:h-8 rounded-lg flex items-center justify-center transition-all duration-500",
                         activeTab === 'custom' ? "bg-white/20" : "bg-white/5 group-hover:bg-white/10"
                       )}>
-                        <MessageSquarePlus className="w-4 h-4" />
+                        <MessageSquarePlus className="w-3.5 h-3.5 md:w-4 md:h-4" />
                       </div>
-                      PROMPT LIVRE
+                      <span className="truncate">PROMPT LIBRE</span>
                     </div>
                     {activeTab === 'custom' && (
                       <motion.div
@@ -517,11 +519,13 @@ export default function Home() {
             >
               <Button
                 onClick={handleGenerateUrl}
-                className="w-full py-10 text-2xl font-black rounded-[2rem] bg-primary hover:bg-primary/90 shadow-[0_20px_50px_rgba(101,31,255,0.4)] transition-all group overflow-hidden relative"
+                className="w-full py-6 md:py-10 text-xl md:text-2xl font-black rounded-[1.5rem] md:rounded-[2rem] bg-primary hover:bg-primary/90 shadow-[0_20px_50px_rgba(101,31,255,0.4)] transition-all group overflow-hidden relative"
               >
                 <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000" />
                 <span className="relative flex items-center justify-center gap-3">
-                  GERAR ENGINE LINK <ArrowRight className="w-6 h-6 group-hover:translate-x-2 transition-transform" />
+                  <span className="hidden sm:inline">GERAR ENGINE LINK</span>
+                  <span className="sm:hidden text-lg">GERAR LINK</span>
+                  <ArrowRight className="w-5 h-5 md:w-6 md:h-6 group-hover:translate-x-2 transition-transform" />
                 </span>
               </Button>
             </motion.div>
