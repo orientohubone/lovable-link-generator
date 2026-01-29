@@ -437,6 +437,64 @@ export const TEMPLATES: AppTemplate[] = [
         description: 'Gere propostas e faturas profissionais em PDF em segundos para seus clientes.',
         prompt: `Crie um Gerador de Faturas: Formulário de dados do cliente e itens, cálculo automático de impostos/total e botão de download em PDF estilizado.`,
     },
+
+    // --- ELITE: SEO & BRAND MONITORING ---
+    {
+        id: 'seo-authority-auditor',
+        name: 'SEO Authority & Velocity Auditor',
+        category: 'Elite: SEO',
+        description: 'Auditor completo de SEO com análise de autoridade de domínio, velocidade (Core Web Vitals) e densidade de keywords.',
+        prompt: `Crie uma ferramenta de Auditoria de SEO completa:
+- Input de URL para análise profunda
+- Dashboard de Core Web Vitals (LCP, FID, CLS)
+- Análise de densidade de palavras-chave e identificação de termos negativos/prejudiciais para o algoritmo
+- Verificador de autoridade de domínio e perfil de backlinks
+- Relatório de erros técnicos (404, meta tags ausentes, estrutura de headings)
+- Design focado em visualização de dados densos com gráficos de performance`,
+    },
+    {
+        id: 'brand-mention-monitor',
+        name: 'Global Brand Mention Monitor',
+        category: 'Elite: SEO',
+        description: 'Monitore menções à sua marca em tempo real em redes sociais, blogs e fóruns com análise de sentimento.',
+        prompt: `Desenvolva um Monitor de Menções de Marca:
+- Stream em tempo real de menções em toda a web
+- Análise de sentimento automática das menções (Positivo/Negativo/Neutro)
+- Alertas de crise de imagem baseados em picos de menções negativas
+- Dashboard de Share of Voice em comparação com concorrentes
+- Relatórios de tendências de tópicos associados à marca
+- Interface de "Command Center" com live feed e mapas de calor`,
+    },
+
+    // --- ELITE: MULTICANAL & E-COMMERCE ---
+    {
+        id: 'multichannel-catalog-builder',
+        name: 'Multichannel Catalog Master',
+        category: 'Elite: Multicanal',
+        description: 'Criação e gestão de catálogo completo sincronizado para múltiplos canais de venda e marketplaces.',
+        prompt: `Crie um Construtor de Catálogo Multicanal:
+- Gestão centralizada de produtos (foto, descrição, preço, estoque)
+- Sincronização automática para diferentes marketplaces e redes sociais
+- Gerador de descrições otimizadas para cada canal via IA
+- Sistema de precificação dinâmica por canal
+- Dashboard de performance de vendas unificado
+- Interface intuitiva de arrastar e soltar para organização de coleções`,
+    },
+
+    // --- ELITE: CIBERSEGURANÇA ---
+    {
+        id: 'open-vpn-security-suite',
+        name: 'Open VPN & Privacy Suite',
+        category: 'Elite: Cibersegurança',
+        description: 'Interface de alta segurança para serviços de VPN estilo Proton, com foco em privacidade e criptografia transparente.',
+        prompt: `Desenvolva uma Suíte de Privacidade VPN (estilo Proton):
+- Dashboard de conexão com mapa global de servidores
+- Kill Switch visual e status de criptografia em tempo real
+- Monitor de vazamento de DNS e proteção contra rastreadores
+- Gestão de logs zero-knowledge
+- Interface ultra-minimalista e segura com modo "Invisível"
+- Design focado em confiança com cores sóbrias e tipografia técnica`,
+    },
 ];
 
 export function getTemplateById(id: string): AppTemplate | undefined {
