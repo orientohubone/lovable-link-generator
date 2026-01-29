@@ -1,5 +1,6 @@
 import { useState } from 'react';
-import { ChevronDown } from 'lucide-react';
+import { ChevronDown, Sparkles, Zap, MessageCircle, Mail, Twitter } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
 
 interface FAQItem {
   id: string;
@@ -25,7 +26,7 @@ const faqItems: FAQItem[] = [
     id: 'faq-3',
     category: 'Sobre o Gerador',
     question: 'Posso customizar completamente o prompt?',
-    answer: 'Sim! Você pode usar qualquer um dos 10 templates pré-definidos ou criar um prompt completamente customizado. A aba "Prompt Customizado" permite que você escreva uma descrição detalhada do app que deseja criar, com até 50.000 caracteres. Quanto mais específico e detalhado for seu prompt, melhor será o app gerado.',
+    answer: 'Sim! Você pode usar qualquer um dos templates pré-definidos ou criar um prompt completamente customizado. A aba "Prompt Livre" permite que você escreva uma descrição detalhada do app que deseja criar, com até 50.000 caracteres. Quanto mais específico e detalhado for seu prompt, melhor será o app gerado.',
   },
   {
     id: 'faq-4',
@@ -37,97 +38,25 @@ const faqItems: FAQItem[] = [
     id: 'faq-5',
     category: 'Sistema de Bônus',
     question: 'Como funciona o sistema de bônus da Lovable?',
-    answer: 'O sistema de bônus funciona em etapas: (1) Você compartilha um link gerado com seu código de indicação; (2) Um novo usuário clica no link e a Lovable cria automaticamente o app; (3) O usuário publica o app na plataforma; (4) Quando o app é publicado, você e o novo usuário recebem 10 créditos bônus cada. O bônus só é ativado quando o app é publicado, não apenas criado.',
+    answer: 'O sistema de bônus funciona em etapas: (1) Você compartilha um link gerado com seu código de indicação; (2) Um novo usuário clica no link e a Lovable cria automaticamente o app; (3) O usuário publica o app na plataforma; (4) Quando o app é publicado, você e o novo usuário recebem 10 créditos bônus cada.',
   },
   {
     id: 'faq-6',
     category: 'Sistema de Bônus',
-    question: 'Quanto crédito ganho por cada indicação bem-sucedida?',
-    answer: 'Você ganha 10 créditos bônus por cada novo usuário que publica um app através de seu link de indicação. O novo usuário também recebe 10 créditos como bônus de boas-vindas. Portanto, ambos ganham com a transação.',
+    question: 'Quanto crédito ganho por cada indicação?',
+    answer: 'Você ganha 10 créditos bônus por cada novo usuário que publica um app através de seu link de indicação. O novo usuário também recebe 10 créditos como bônus de boas-vindas.',
   },
   {
     id: 'faq-7',
     category: 'Sistema de Bônus',
     question: 'O que é necessário para ativar o bônus?',
-    answer: 'Para ativar o bônus, o novo usuário deve: (1) Clicar no link gerado; (2) Deixar a Lovable gerar o app automaticamente; (3) Revisar o app gerado; (4) Clicar no botão "Publicar" para publicar o app. O bônus é ativado apenas quando o app é publicado, não durante a criação.',
+    answer: 'O novo usuário deve clicar no link, aguardar a geração e clicar em "Publish". O bônus é ativado apenas quando o app é publicado oficialmente na plataforma Lovable.',
   },
   {
     id: 'faq-8',
     category: 'Sistema de Bônus',
     question: 'Posso ganhar bônus infinitamente?',
-    answer: 'Sim, você pode ganhar bônus infinitamente! Cada novo usuário que publica um app através de seu link gera 10 créditos para você. Não há limite de indicações bem-sucedidas. Quanto mais pessoas você indicar, mais créditos você ganha.',
-  },
-  {
-    id: 'faq-9',
-    category: 'Sistema de Bônus',
-    question: 'Como encontro meu ID de indicação?',
-    answer: 'Seu ID de indicação está disponível na sua conta Lovable, geralmente na seção de "Referral" ou "Indicações". Se você não conseguir encontrar, entre em contato com o suporte da Lovable em support@lovable.dev ou acesse https://lovable.dev/referral.',
-  },
-  {
-    id: 'faq-10',
-    category: 'Sistema de Bônus',
-    question: 'Há alguma restrição para ganhar bônus?',
-    answer: 'Sim, existem algumas restrições: (1) O novo usuário deve ser realmente novo (não pode ter conta anterior na Lovable); (2) O email do novo usuário não pode ser de um serviço de email descartável ou de alto risco; (3) A Lovable monitora atividades suspeitas e pode reter bônus se detectar fraude; (4) Cada novo usuário gera apenas um bônus (sem "stacking").',
-  },
-  {
-    id: 'faq-11',
-    category: 'Dicas de Otimização',
-    question: 'Qual é o melhor tipo de prompt para conversão?',
-    answer: 'Os melhores prompts são aqueles que: (1) Descrevem apps úteis e práticos (tarefas, notas, calculadoras); (2) São específicos e detalhados sobre funcionalidades; (3) Incluem requisitos de design claros; (4) Mencionam a experiência do usuário desejada. Prompts vagos ou muito genéricos resultam em apps menos interessantes, reduzindo a probabilidade de publicação.',
-  },
-  {
-    id: 'faq-12',
-    category: 'Dicas de Otimização',
-    question: 'Como aumentar minha taxa de conversão?',
-    answer: 'Para aumentar conversões: (1) Escolha prompts para apps que resolvem problemas reais; (2) Use templates pré-definidos que já foram testados; (3) Compartilhe com públicos relevantes (desenvolvedores, designers, empreendedores); (4) Explique brevemente o que o app faz antes de compartilhar o link; (5) Crie múltiplos links com diferentes prompts para testar qual converte melhor.',
-  },
-  {
-    id: 'faq-13',
-    category: 'Dicas de Otimização',
-    question: 'Posso usar os templates pré-definidos?',
-    answer: 'Sim! Os 10 templates pré-definidos são otimizados para conversão e incluem: App de Tarefas, Dashboard de Clima, Rastreador de Despesas, Site de Portfólio, App de Anotações, Calculadora Avançada, Quadro Kanban, Gerador de Paleta de Cores, Timer Pomodoro e Gerador de Código QR. Esses templates já foram testados e tendem a ter boas taxas de conversão.',
-  },
-  {
-    id: 'faq-14',
-    category: 'Dicas de Otimização',
-    question: 'Onde devo compartilhar meus links?',
-    answer: 'Você pode compartilhar seus links em: (1) Redes sociais (Twitter, LinkedIn, Facebook); (2) Comunidades de desenvolvedores (Reddit, Discord, Slack); (3) Fóruns de tecnologia; (4) Seu blog ou site pessoal; (5) Email para contatos; (6) Grupos de interesse específico. Quanto mais relevante for o público, melhor será a taxa de conversão.',
-  },
-  {
-    id: 'faq-15',
-    category: 'Segurança e Conformidade',
-    question: 'Meus dados estão seguros?',
-    answer: 'Sim, seus dados estão seguros. O Gerador de Links Lovable não armazena dados pessoais sensíveis. Seu ID de indicação é usado apenas para rastrear conversões legítimas. A Lovable utiliza verificação de reputação de email e monitoramento antifraude para garantir que apenas usuários legítimos recebam bônus.',
-  },
-  {
-    id: 'faq-16',
-    category: 'Segurança e Conformidade',
-    question: 'A Lovable detecta atividades suspeitas?',
-    answer: 'Sim, a Lovable possui algoritmos avançados que monitoram atividades suspeitas, incluindo: (1) Múltiplas contas criadas com o mesmo email; (2) Padrões de criação de apps anormais; (3) Emails de serviços descartáveis; (4) Tentativas de fraude ou "stacking" de bônus. Se atividade suspeita for detectada, a Lovable pode reter ou cancelar bônus.',
-  },
-  {
-    id: 'faq-17',
-    category: 'Segurança e Conformidade',
-    question: 'O que acontece se eu tentar fraudar o sistema?',
-    answer: 'A Lovable leva a fraude muito a sério. Se você tentar: (1) Criar múltiplas contas falsas; (2) Usar emails descartáveis; (3) Fazer "stacking" de bônus; (4) Compartilhar links de forma abusiva; a Lovable pode: (1) Reter seus bônus; (2) Desativar seu link de indicação; (3) Suspender sua conta. Sempre use o sistema de forma legítima e ética.',
-  },
-  {
-    id: 'faq-18',
-    category: 'Problemas Técnicos',
-    question: 'O que fazer se o link não funcionar?',
-    answer: 'Se o link não funcionar: (1) Verifique se copiou o link completo (incluindo a parte após o "#"); (2) Tente abrir em um navegador diferente; (3) Limpe o cache do navegador; (4) Certifique-se de que seu ID de indicação está correto; (5) Se o problema persistir, entre em contato com o suporte da Lovable.',
-  },
-  {
-    id: 'faq-19',
-    category: 'Problemas Técnicos',
-    question: 'Por que o app não é gerado automaticamente?',
-    answer: 'Se o app não é gerado automaticamente: (1) Certifique-se de que o prompt não está vazio; (2) Verifique se o prompt tem menos de 50.000 caracteres; (3) Tente novamente em alguns segundos (pode haver delay); (4) Se o problema persistir, a Lovable pode estar com manutenção. Entre em contato com o suporte se o problema continuar.',
-  },
-  {
-    id: 'faq-20',
-    category: 'Problemas Técnicos',
-    question: 'Como entro em contato com o suporte?',
-    answer: 'Para suporte: (1) Visite https://help.manus.im para enviar uma solicitação; (2) Email: support@lovable.dev; (3) Comunidade Lovable no Discord; (4) Twitter: @lovable_dev. Descreva seu problema em detalhes para receber ajuda mais rápida.',
+    answer: 'Sim! Não há limite de indicações bem-sucedidas. Cada novo usuário que publicar um app através do seu link gera créditos para ambos.',
   },
 ];
 
@@ -140,98 +69,169 @@ export default function FAQ() {
   };
 
   return (
-    <div className="min-h-screen bg-white">
-      {/* Cabeçalho */}
-      <header className="border-b border-border">
-        <div className="container py-8 md:py-12">
-          <h1 className="text-5xl md:text-6xl font-black text-foreground mb-2">
-            Perguntas Frequentes
-          </h1>
-          <p className="text-lg text-muted-foreground max-w-2xl">
-            Encontre respostas para as perguntas mais comuns sobre o Gerador de Links Lovable e o sistema de bônus.
-          </p>
+    <div className="min-h-screen relative overflow-hidden bg-background text-foreground">
+      {/* Background Decor */}
+      <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-primary/10 blur-[120px] rounded-full" />
+      <div className="absolute bottom-[-10%] right-[-10%] w-[30%] h-[30%] bg-accent/10 blur-[100px] rounded-full" />
+
+      {/* Header */}
+      <nav className="sticky top-0 z-50 glass border-b border-white/5 px-6 py-4">
+        <div className="container flex justify-between items-center">
+          <motion.div
+            initial={{ opacity: 0, x: -20 }}
+            animate={{ opacity: 1, x: 0 }}
+            className="flex items-center gap-2"
+          >
+            <div className="w-8 h-8 bg-gradient-to-tr from-primary to-accent rounded-lg flex items-center justify-center shadow-[0_0_15px_var(--glow-primary)]">
+              <Zap className="w-5 h-5 text-white fill-current" />
+            </div>
+            <span className="font-black text-xl tracking-tighter text-glow">LOVABLE GEN</span>
+          </motion.div>
+          <div className="flex gap-8">
+            <a href="/" className="text-sm font-bold opacity-70 hover:opacity-100 hover:text-primary transition-all">PRODUTO</a>
+            <a href="/faq" className="text-sm font-bold text-primary">FAQ</a>
+          </div>
         </div>
-      </header>
+      </nav>
 
-      {/* Conteúdo Principal */}
-      <main className="container py-12">
-        <div className="space-y-12">
-          {categories.map((category) => (
-            <section key={category} className="space-y-4">
-              <h2 className="text-2xl font-bold text-foreground border-b-4 border-accent pb-3">
-                {category}
-              </h2>
+      <main className="container py-20 relative z-10">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="text-center mb-20"
+        >
+          <h1 className="text-5xl md:text-7xl font-black mb-6 tracking-tight bg-gradient-to-b from-white to-white/40 bg-clip-text text-transparent">
+            Central de Ajuda.
+          </h1>
+          <p className="text-lg text-muted-foreground max-w-2xl mx-auto font-medium">
+            Tudo o que você precisa saber sobre o Gerador de Links e o ecossistema Lovable.
+          </p>
+        </motion.div>
 
-              <div className="space-y-3">
+        <div className="max-w-4xl mx-auto space-y-16">
+          {categories.map((category, idx) => (
+            <motion.section
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: idx * 0.1 }}
+              key={category}
+              className="space-y-6"
+            >
+              <div className="flex items-center gap-4">
+                <h2 className="text-xs font-black tracking-[0.3em] text-primary uppercase bg-primary/10 px-4 py-2 rounded-full border border-primary/20 shadow-sm">
+                  {category}
+                </h2>
+                <div className="h-px flex-1 bg-gradient-to-r from-primary/20 to-transparent" />
+              </div>
+
+              <div className="grid gap-4">
                 {faqItems
                   .filter((item) => item.category === category)
                   .map((item) => (
                     <div
                       key={item.id}
-                      className="border border-border rounded-md overflow-hidden transition-all hover:border-muted-foreground"
+                      className={`group transition-all duration-300 rounded-3xl border ${expandedId === item.id
+                          ? 'bg-white/5 border-primary/50 shadow-[0_0_30px_rgba(101,31,255,0.1)]'
+                          : 'bg-black/20 border-white/5 hover:border-white/20'
+                        }`}
                     >
                       <button
                         onClick={() => toggleExpanded(item.id)}
-                        className="w-full px-6 py-4 flex items-center justify-between bg-secondary hover:bg-muted transition-colors text-left"
+                        className="w-full px-8 py-6 flex items-center justify-between text-left"
                       >
-                        <h3 className="font-bold text-foreground pr-4">{item.question}</h3>
-                        <ChevronDown
-                          className={`w-5 h-5 text-accent flex-shrink-0 transition-transform ${
-                            expandedId === item.id ? 'rotate-180' : ''
-                          }`}
-                        />
+                        <h3 className={`font-black tracking-tight text-lg transition-colors ${expandedId === item.id ? 'text-primary' : 'text-white/90 group-hover:text-white'
+                          }`}>
+                          {item.question}
+                        </h3>
+                        <div className={`w-10 h-10 rounded-2xl flex items-center justify-center transition-all ${expandedId === item.id ? 'bg-primary text-white rotate-180' : 'bg-white/5 text-white/40'
+                          }`}>
+                          <ChevronDown className="w-5 h-5" />
+                        </div>
                       </button>
 
-                      {expandedId === item.id && (
-                        <div className="px-6 py-4 bg-white border-t border-border">
-                          <p className="text-muted-foreground leading-relaxed">{item.answer}</p>
-                        </div>
-                      )}
+                      <AnimatePresence>
+                        {expandedId === item.id && (
+                          <motion.div
+                            initial={{ height: 0, opacity: 0 }}
+                            animate={{ height: 'auto', opacity: 1 }}
+                            exit={{ height: 0, opacity: 0 }}
+                            transition={{ duration: 0.3, ease: 'easeInOut' }}
+                            className="overflow-hidden"
+                          >
+                            <div className="px-8 pb-8">
+                              <div className="h-px w-full bg-white/5 mb-6" />
+                              <p className="text-muted-foreground leading-relaxed font-medium">
+                                {item.answer}
+                              </p>
+                            </div>
+                          </motion.div>
+                        )}
+                      </AnimatePresence>
                     </div>
                   ))}
               </div>
-            </section>
+            </motion.section>
           ))}
         </div>
 
-        {/* Seção de Contato */}
-        <section className="mt-16 bg-secondary border-l-4 border-accent p-8 rounded-md">
-          <h2 className="text-2xl font-bold text-foreground mb-4">Não encontrou sua resposta?</h2>
-          <p className="text-muted-foreground mb-6">
-            Se você não encontrou a resposta para sua pergunta, entre em contato conosco através dos canais de suporte:
-          </p>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            <a
-              href="https://help.manus.im"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="px-4 py-3 bg-accent text-accent-foreground font-bold rounded-md hover:bg-accent/90 transition-colors text-center"
-            >
-              📧 Centro de Ajuda
-            </a>
-            <a
-              href="mailto:support@lovable.dev"
-              className="px-4 py-3 bg-accent text-accent-foreground font-bold rounded-md hover:bg-accent/90 transition-colors text-center"
-            >
-              ✉️ Email de Suporte
-            </a>
-            <a
-              href="https://twitter.com/lovable_dev"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="px-4 py-3 bg-accent text-accent-foreground font-bold rounded-md hover:bg-accent/90 transition-colors text-center"
-            >
-              𝕏 Twitter
-            </a>
+        {/* Contact CTA */}
+        <motion.section
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          className="mt-32 glass p-12 rounded-[3rem] border-white/5 relative overflow-hidden text-center"
+        >
+          <div className="absolute top-0 right-0 p-12 opacity-5">
+            <Sparkles className="w-48 h-48" />
           </div>
-        </section>
+
+          <h2 className="text-3xl font-black mb-4 tracking-tighter">Ainda com dúvidas?</h2>
+          <p className="text-muted-foreground mb-12 max-w-xl mx-auto font-medium">
+            Nossa equipe técnica e comunidade estão prontas para ajudar você a escalar suas criações.
+          </p>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-3xl mx-auto">
+            <motion.a
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
+              href="https://help.manus.im"
+              className="flex flex-col items-center gap-4 p-8 bg-white/5 rounded-[2rem] border border-white/5 hover:bg-white/10 transition-all group"
+            >
+              <div className="w-12 h-12 bg-primary/20 rounded-2xl flex items-center justify-center text-primary group-hover:scale-110 transition-transform">
+                <MessageCircle className="w-6 h-6" />
+              </div>
+              <span className="font-black text-xs tracking-widest uppercase">Centro de Ajuda</span>
+            </motion.a>
+            <motion.a
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
+              href="mailto:support@lovable.dev"
+              className="flex flex-col items-center gap-4 p-8 bg-white/5 rounded-[2rem] border border-white/5 hover:bg-white/10 transition-all group"
+            >
+              <div className="w-12 h-12 bg-accent/20 rounded-2xl flex items-center justify-center text-accent group-hover:scale-110 transition-transform">
+                <Mail className="w-6 h-6" />
+              </div>
+              <span className="font-black text-xs tracking-widest uppercase">E-mail Suporte</span>
+            </motion.a>
+            <motion.a
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
+              href="https://twitter.com/lovable_dev"
+              className="flex flex-col items-center gap-4 p-8 bg-white/5 rounded-[2rem] border border-white/5 hover:bg-white/10 transition-all group"
+            >
+              <div className="w-12 h-12 bg-primary/20 rounded-2xl flex items-center justify-center text-primary group-hover:scale-110 transition-transform">
+                <Twitter className="w-6 h-6" />
+              </div>
+              <span className="font-black text-xs tracking-widest uppercase">Comunidade X</span>
+            </motion.a>
+          </div>
+        </motion.section>
       </main>
 
-      {/* Rodapé */}
-      <footer className="border-t border-border mt-16">
-        <div className="container py-8 text-center text-sm text-muted-foreground">
-          <p>
-            Gerador de Links Lovable • Maximize conversões com criação automática de apps
+      <footer className="py-20 border-t border-white/5 mt-20 bg-black/20 relative z-10">
+        <div className="container text-center">
+          <p className="text-[10px] tracking-[0.4em] font-black text-muted-foreground/30 uppercase">
+            LOVABLE GEN • REVISÃO DE SISTEMA 2026
           </p>
         </div>
       </footer>

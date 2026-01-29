@@ -1,21 +1,17 @@
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Copy, ExternalLink, Check } from 'lucide-react';
+import { ScrollArea } from '@/components/ui/scroll-area';
+import { Copy, ExternalLink, Check, Sparkles, Zap, Shield, ArrowRight } from 'lucide-react';
 import { buildLovableURL, copyToClipboard } from '@/lib/urlBuilder';
 import { TEMPLATES, getAllCategories, getTemplatesByCategory } from '@/lib/templates';
 import { toast } from 'sonner';
+import { motion, AnimatePresence } from 'framer-motion';
 
 /**
- * Gerador de Links Lovable - Aplicação Principal
- * 
- * Este componente fornece uma interface para:
- * 1. Selecionar ou criar prompts para geração de apps na Lovable
- * 2. Gerar URLs híbridas combinando links de indicação com parâmetros de Build with URL
- * 3. Copiar e compartilhar links gerados com orientação de conversão
+ * Gerador de Links Lovable - Midnight AI Edition
  */
 export default function Home() {
-  // Gerenciamento de estado
   const [referralId, setReferralId] = useState('');
   const [customPrompt, setCustomPrompt] = useState('');
   const [selectedTemplate, setSelectedTemplate] = useState<string | null>(null);
@@ -23,20 +19,22 @@ export default function Home() {
   const [copied, setCopied] = useState(false);
   const [showConversionGuide, setShowConversionGuide] = useState(false);
 
-  // Obter o prompt atual (do template ou customizado)
   const currentPrompt = selectedTemplate
     ? TEMPLATES.find((t) => t.id === selectedTemplate)?.prompt || ''
     : customPrompt;
 
-  // Handler para gerar URL
   const handleGenerateUrl = () => {
     if (!referralId.trim()) {
-      toast.error('Por favor, insira seu ID de indicação da Lovable');
+      toast.error('Insira seu ID da Lovable', {
+        className: 'glass border-destructive/50 text-foreground',
+      });
       return;
     }
 
     if (!currentPrompt.trim()) {
-      toast.error('Por favor, selecione um template ou insira um prompt customizado');
+      toast.error('Selecione um template ou crie um prompt', {
+        className: 'glass border-destructive/50 text-foreground',
+      });
       return;
     }
 
@@ -49,261 +47,303 @@ export default function Home() {
 
       setGeneratedUrl(result.full);
       setShowConversionGuide(true);
-      toast.success('URL gerada com sucesso!');
+      toast.success('Link gerado com sucesso!', {
+        icon: <Sparkles className="w-4 h-4 text-primary" />,
+        className: 'glass border-primary/50 text-foreground font-bold',
+      });
     } catch (error) {
-      toast.error(error instanceof Error ? error.message : 'Falha ao gerar URL');
+      toast.error('Falha ao gerar URL');
     }
   };
 
-  // Handler para copiar URL
   const handleCopyUrl = async () => {
     if (!generatedUrl) return;
-
     const success = await copyToClipboard(generatedUrl);
     if (success) {
       setCopied(true);
-      toast.success('URL copiada para a área de transferência!');
+      toast.success('Copiado para o clipboard!');
       setTimeout(() => setCopied(false), 2000);
-    } else {
-      toast.error('Falha ao copiar URL');
-    }
-  };
-
-  // Handler para abrir URL
-  const handleOpenUrl = () => {
-    if (generatedUrl) {
-      window.open(generatedUrl, '_blank');
     }
   };
 
   const categories = getAllCategories();
 
   return (
-    <div className="min-h-screen bg-white">
-      {/* Cabeçalho com Navegação */}
-      <header className="border-b border-border">
-        <div className="container py-4 flex justify-between items-center mb-4">
-          <a href="/" className="text-sm font-bold text-foreground hover:text-accent transition-colors">
-            Início
-          </a>
-          <a href="/faq" className="text-sm font-bold text-foreground hover:text-accent transition-colors">
-            FAQ
-          </a>
+    <div className="min-h-screen relative overflow-hidden bg-background text-foreground selection:bg-primary selection:text-primary-foreground">
+      {/* Background Decor Removed */}
+
+
+      {/* Header */}
+      <nav className="sticky top-0 z-50 glass border-b border-white/5 px-6 py-4">
+        <div className="container flex justify-between items-center">
+          <motion.div
+            initial={{ opacity: 0, x: -20 }}
+            animate={{ opacity: 1, x: 0 }}
+            className="flex items-center gap-2"
+          >
+            <div className="w-8 h-8 bg-gradient-to-tr from-primary to-accent rounded-lg flex items-center justify-center border border-white/20">
+              <Zap className="w-5 h-5 text-white fill-current" />
+            </div>
+            <span className="font-black text-xl tracking-tighter text-glow">LOVABLE GEN</span>
+          </motion.div>
+          <div className="flex gap-8">
+            <a href="/" className="text-sm font-bold opacity-70 hover:opacity-100 hover:text-primary transition-all">PRODUTO</a>
+            <a href="/faq" className="text-sm font-bold opacity-70 hover:opacity-100 hover:text-primary transition-all">FAQ</a>
+          </div>
         </div>
-        <div className="container py-8 md:py-12">
-          <h1 className="text-5xl md:text-6xl font-black text-foreground mb-2">
-            Gerador de Links Lovable
-          </h1>
-          <p className="text-lg text-muted-foreground max-w-2xl">
-            Crie links compartilháveis que geram automaticamente apps na Lovable com seu código de indicação.
-            Maximize conversões e ganhe créditos bônus.
-          </p>
-        </div>
-      </header>
+      </nav>
 
-      {/* Conteúdo Principal */}
-      <main className="container py-12">
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          {/* Coluna Esquerda - Gerador */}
-          <div className="lg:col-span-2">
-            <div className="space-y-8">
-              {/* Input de ID de Indicação */}
-              <section className="border-t-4 border-accent pt-6">
-                <h2 className="text-2xl font-bold text-foreground mb-4">Seu ID de Indicação</h2>
-                <p className="text-muted-foreground mb-4">
-                  Insira seu ID de indicação da Lovable para rastrear conversões e ganhar créditos bônus.
-                </p>
-                <input
-                  type="text"
-                  value={referralId}
-                  onChange={(e) => setReferralId(e.target.value)}
-                  placeholder="seu-id-de-indicacao"
-                  className="w-full px-4 py-3 border border-border rounded-md bg-secondary text-foreground placeholder-muted-foreground focus:outline-none focus:ring-2 focus:ring-accent"
-                />
-              </section>
+      <main className="px-6 py-20 relative z-10">
+        {/* Hero Section */}
+        <section className="text-center mb-24">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+          >
+            <h1 className="text-6xl md:text-8xl font-black mb-6 tracking-tight leading-none text-white">
+              Crie Apps Lovable <br /> Num Único Click.
+            </h1>
+            <p className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto mb-10 leading-relaxed">
+              Vá além dos prompts simples. Gere <span className="text-primary font-bold">Blueprints de Elite</span> validados para escala e dominância de mercado através do poder do Lovable Engine.
+            </p>
+          </motion.div>
+        </section>
 
-              {/* Seleção de Prompt */}
-              <section className="border-t-4 border-accent pt-6">
-                <h2 className="text-2xl font-bold text-foreground mb-4">Selecione ou Crie um Prompt</h2>
-                <Tabs defaultValue="templates" className="w-full">
-                  <TabsList className="grid w-full grid-cols-2 mb-6">
-                    <TabsTrigger value="templates">Templates</TabsTrigger>
-                    <TabsTrigger value="custom">Prompt Customizado</TabsTrigger>
-                  </TabsList>
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 max-w-[1600px] mx-auto">
+          {/* Editor Area */}
+          <motion.div
+            initial={{ opacity: 0, y: 40 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.2 }}
+            className="lg:col-span-7 xl:col-span-8 space-y-16"
+          >
+            {/* Step 1: ID */}
+            <div className="glass p-8 rounded-[2rem] relative overflow-hidden group border-white/10">
+              <div className="absolute top-0 right-0 p-8 opacity-5 group-hover:opacity-10 transition-opacity">
+                <Shield className="w-32 h-32" />
+              </div>
+              <h2 className="text-2xl font-black mb-6 flex items-center gap-3">
+                <span className="w-10 h-10 rounded-xl bg-primary/20 text-primary flex items-center justify-center text-sm font-black border border-primary/30">01</span>
+                Identificação Lovable
+              </h2>
+              <input
+                type="text"
+                value={referralId}
+                onChange={(e) => setReferralId(e.target.value)}
+                placeholder="Insira seu ID (ex: john-doe-123)"
+                className="w-full bg-black/40 border border-white/10 rounded-2xl px-6 py-5 text-lg focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition-all placeholder:text-muted-foreground/50"
+              />
+              <p className="mt-4 text-xs text-muted-foreground/60 px-2 font-medium">Seu ID é necessário para que você receba os créditos de indicação.</p>
+            </div>
 
-                  {/* Aba de Templates */}
-                  <TabsContent value="templates" className="space-y-4">
-                    <div className="space-y-6 max-h-[600px] overflow-y-auto pr-2 custom-scrollbar">
-                      {categories.map((category) => (
-                        <div key={category}>
-                          <h3 className="text-sm font-bold text-accent uppercase tracking-wide mb-3 border-b border-border pb-2">
-                            {category}
-                          </h3>
-                          <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                            {getTemplatesByCategory(category).map((template) => (
-                              <button
-                                key={template.id}
-                                onClick={() => {
-                                  setSelectedTemplate(template.id);
-                                  setCustomPrompt('');
-                                }}
-                                className={`p-4 text-left border-2 rounded-md transition-all hover:shadow-sm ${
-                                  selectedTemplate === template.id
-                                    ? 'border-accent bg-accent/5 ring-1 ring-accent'
-                                    : 'border-border hover:border-accent/50'
-                                }`}
-                              >
-                                <div className="flex justify-between items-start mb-2">
-                                  <p className={`font-bold ${selectedTemplate === template.id ? 'text-accent' : 'text-foreground'}`}>
-                                    {template.name}
-                                  </p>
-                                  {selectedTemplate === template.id && (
-                                    <Check className="w-4 h-4 text-accent" />
+            {/* Step 2: Content */}
+            <div className="glass p-12 rounded-[3rem] border-white/10">
+              <h2 className="text-2xl font-black mb-8 flex items-center gap-3">
+                <span className="w-10 h-10 rounded-xl bg-primary/20 text-primary flex items-center justify-center text-sm font-black border border-primary/30">02</span>
+                Defina sua Aplicação
+              </h2>
+              <Tabs defaultValue="templates" className="w-full">
+                <TabsList className="grid w-full grid-cols-2 bg-black/40 p-1.5 rounded-2xl mb-8 border border-white/5">
+                  <TabsTrigger value="templates" className="rounded-xl py-3 font-black text-xs tracking-widest data-[state=active]:bg-primary data-[state=active]:shadow-lg">TEMPLATES</TabsTrigger>
+                  <TabsTrigger value="custom" className="rounded-xl py-3 font-black text-xs tracking-widest data-[state=active]:bg-primary data-[state=active]:shadow-lg">PROMPT LIVRE</TabsTrigger>
+                </TabsList>
+
+                <TabsContent value="templates" className="mt-0 outline-none">
+                  <div className="relative group/scroll">
+                    <ScrollArea className="h-[600px] -mx-4 px-6 [mask-image:linear-gradient(to_bottom,transparent,black_2%,black_98%,transparent)]">
+                      <div className="py-8 px-6">
+                        {categories.map(cat => (
+                          <div key={cat} className="mb-12 last:mb-0">
+                            <div className="flex items-center gap-4 mb-6 sticky top-0 z-20 py-2">
+                              {(() => {
+                                const isOuro = cat.includes('Ouro');
+                                const isElite = cat.includes('Elite');
+                                const isEssencial = cat.includes('Essencial');
+
+                                return (
+                                  <div className={`
+                                    backdrop-blur-md px-5 py-2 rounded-full border shadow-lg transition-all
+                                    ${isOuro
+                                      ? 'bg-gradient-to-r from-amber-500/20 to-yellow-500/20 border-yellow-500/50 shadow-yellow-500/10'
+                                      : isElite
+                                        ? 'bg-primary/10 border-primary/20 shadow-primary/5'
+                                        : 'bg-white/5 border-white/10'
+                                    }
+                                  `}>
+                                    <h3 className={`
+                                      text-[11px] font-black tracking-[0.25em] uppercase flex items-center gap-2
+                                      ${isOuro ? 'text-yellow-400' : isElite ? 'text-primary' : 'text-muted-foreground'}
+                                    `}>
+                                      {isOuro && <Sparkles className="w-3 h-3" />}
+                                      {cat}
+                                    </h3>
+                                  </div>
+                                );
+                              })()}
+                              <div className="h-[1px] flex-1 bg-gradient-to-r from-white/5 to-transparent" />
+                            </div>
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                              {getTemplatesByCategory(cat).map(t => (
+                                <motion.button
+                                  whileHover={{ scale: 1.02, translateY: -2 }}
+                                  whileTap={{ scale: 0.98 }}
+                                  onClick={() => { setSelectedTemplate(t.id); setCustomPrompt(''); }}
+                                  className={`p-6 text-left rounded-2xl border transition-all relative overflow-hidden group/card ${selectedTemplate === t.id
+                                    ? 'bg-primary/20 border-primary ring-1 ring-primary shadow-[0_0_40px_rgba(101,31,255,0.25)]'
+                                    : cat.includes('Ouro')
+                                      ? 'bg-amber-500/5 border-amber-500/10 hover:border-amber-500/40 hover:bg-amber-500/10'
+                                      : cat.includes('Elite')
+                                        ? 'bg-primary/5 border-primary/10 hover:border-primary/40 hover:bg-primary/10'
+                                        : 'bg-white/5 border-white/5 hover:border-white/20 hover:bg-white/10'
+                                    }`}
+                                >
+                                  {selectedTemplate === t.id && (
+                                    <div className="absolute top-0 right-0 w-12 h-12 bg-primary/20 blur-2xl rounded-full" />
                                   )}
-                                </div>
-                                <p className="text-sm text-muted-foreground line-clamp-2">
-                                  {template.description}
-                                </p>
-                              </button>
-                            ))}
+                                  <div className="flex justify-between items-start mb-3">
+                                    <span className={`font-black text-base leading-tight ${selectedTemplate === t.id ? 'text-white' : 'text-white/80 group-hover/card:text-white'}`}>{t.name}</span>
+                                    {selectedTemplate === t.id && <Zap className="w-4 h-4 text-primary fill-current drop-shadow-[0_0_8px_var(--glow-primary)]" />}
+                                  </div>
+                                  <p className="text-[11px] text-muted-foreground/80 leading-relaxed line-clamp-2 font-medium">{t.description}</p>
+                                </motion.button>
+                              ))}
+                            </div>
                           </div>
-                        </div>
-                      ))}
-                    </div>
-                  </TabsContent>
+                        ))}
+                      </div>
+                    </ScrollArea>
+                  </div>
+                </TabsContent>
 
-                  {/* Aba de Prompt Customizado */}
-                  <TabsContent value="custom" className="space-y-4">
-                    <p className="text-muted-foreground text-sm">
-                      Escreva um prompt detalhado descrevendo o app que deseja criar. Máximo de 50.000 caracteres.
-                    </p>
+                <TabsContent value="custom" className="mt-0 outline-none">
+                  <div className="relative group">
+                    <div className="absolute -inset-1 bg-gradient-to-r from-primary to-accent rounded-[1.6rem] blur opacity-0 group-focus-within:opacity-20 transition duration-500" />
                     <textarea
                       value={customPrompt}
-                      onChange={(e) => {
-                        setCustomPrompt(e.target.value);
-                        setSelectedTemplate(null);
-                      }}
-                      placeholder="Descreva o app que deseja criar..."
-                      className="w-full h-48 px-4 py-3 border border-border rounded-md bg-secondary text-foreground placeholder-muted-foreground focus:outline-none focus:ring-2 focus:ring-accent resize-none"
+                      onChange={(e) => { setCustomPrompt(e.target.value); setSelectedTemplate(null); }}
+                      placeholder="Descreva a aplicação dos seus sonhos nos mínimos detalhes..."
+                      className="relative w-full h-64 bg-black/40 border border-white/10 rounded-[1.5rem] px-6 py-6 text-lg focus:ring-2 focus:ring-primary outline-none resize-none transition-all placeholder:text-muted-foreground/30 font-medium"
                     />
-                    <div className="text-xs text-muted-foreground">
-                      {customPrompt.length} / 50.000 caracteres
+                    <div className="absolute bottom-6 right-6 text-[10px] font-black tracking-widest text-muted-foreground/40 bg-black/60 px-3 py-1 rounded-full border border-white/5">
+                      {customPrompt.length} / 50.000
                     </div>
-                  </TabsContent>
-                </Tabs>
-              </section>
+                  </div>
+                </TabsContent>
+              </Tabs>
+            </div>
 
-              {/* Botão de Geração */}
+            <motion.div
+              whileHover={{ scale: 1.01 }}
+              whileTap={{ scale: 0.99 }}
+            >
               <Button
                 onClick={handleGenerateUrl}
-                size="lg"
-                className="w-full bg-accent hover:bg-accent/90 text-accent-foreground font-bold text-lg py-6"
+                className="w-full py-10 text-2xl font-black rounded-[2rem] bg-primary hover:bg-primary/90 shadow-[0_20px_50px_rgba(101,31,255,0.4)] transition-all group overflow-hidden relative"
               >
-                Gerar Link
+                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000" />
+                <span className="relative flex items-center justify-center gap-3">
+                  GERAR ENGINE LINK <ArrowRight className="w-6 h-6 group-hover:translate-x-2 transition-transform" />
+                </span>
               </Button>
-            </div>
-          </div>
+            </motion.div>
+          </motion.div>
 
-          {/* Coluna Direita - Resultados e Guia */}
-          <div className="lg:col-span-1">
-            {generatedUrl ? (
-              <div className="space-y-6">
-                {/* Exibição da URL Gerada */}
-                <div className="bg-foreground text-accent-foreground p-6 rounded-md space-y-4">
-                  <h3 className="font-bold text-lg">Seu Link Gerado</h3>
-                  <div className="bg-black p-3 rounded text-xs break-all font-mono text-accent overflow-auto max-h-32">
-                    {generatedUrl}
-                  </div>
-                  <div className="flex gap-2">
-                    <Button
-                      onClick={handleCopyUrl}
-                      variant="outline"
-                      size="sm"
-                      className="flex-1 border-accent-foreground text-accent-foreground hover:bg-accent-foreground hover:text-foreground"
-                    >
-                      {copied ? <Check className="w-4 h-4 mr-2" /> : <Copy className="w-4 h-4 mr-2" />}
-                      {copied ? 'Copiado!' : 'Copiar'}
-                    </Button>
-                    <Button
-                      onClick={handleOpenUrl}
-                      variant="outline"
-                      size="sm"
-                      className="flex-1 border-accent-foreground text-accent-foreground hover:bg-accent-foreground hover:text-foreground"
-                    >
-                      <ExternalLink className="w-4 h-4 mr-2" />
-                      Abrir
-                    </Button>
-                  </div>
-                </div>
-
-                {/* Guia de Conversão */}
-                {showConversionGuide && (
-                  <div className="border-l-4 border-accent bg-secondary p-6 rounded-md space-y-4">
-                    <h3 className="font-bold text-lg text-foreground">📋 Checklist de Conversão</h3>
-                    <div className="space-y-3 text-sm">
-                      <div className="flex gap-3">
-                        <div className="text-accent font-bold">1</div>
-                        <div>
-                          <p className="font-bold text-foreground">Compartilhe o link</p>
-                          <p className="text-muted-foreground">Envie para amigos ou incorpore no seu site</p>
-                        </div>
-                      </div>
-                      <div className="flex gap-3">
-                        <div className="text-accent font-bold">2</div>
-                        <div>
-                          <p className="font-bold text-foreground">App é gerado automaticamente</p>
-                          <p className="text-muted-foreground">A Lovable criará o app a partir do seu prompt</p>
-                        </div>
-                      </div>
-                      <div className="flex gap-3">
-                        <div className="text-accent font-bold">3</div>
-                        <div>
-                          <p className="font-bold text-foreground">Usuário publica o app</p>
-                          <p className="text-muted-foreground">
-                            <strong>Crítico:</strong> Ele deve clicar em "Publicar" para ativar seu bônus
-                          </p>
-                        </div>
-                      </div>
-                      <div className="flex gap-3">
-                        <div className="text-accent font-bold">✓</div>
-                        <div>
-                          <p className="font-bold text-foreground">Ganhe 10 créditos!</p>
-                          <p className="text-muted-foreground">Você e o usuário recebem créditos bônus</p>
-                        </div>
-                      </div>
+          {/* Sidebar Area */}
+          <div className="lg:col-span-5 xl:col-span-4">
+            <AnimatePresence mode="wait">
+              {generatedUrl ? (
+                <motion.div
+                  key="result"
+                  initial={{ opacity: 0, x: 20, scale: 0.95 }}
+                  animate={{ opacity: 1, x: 0, scale: 1 }}
+                  exit={{ opacity: 0, x: -20, scale: 0.95 }}
+                  className="sticky top-28 space-y-8"
+                >
+                  <div className="glass p-8 rounded-[2.5rem] border-primary/40 relative overflow-hidden shadow-[0_0_50px_rgba(101,31,255,0.15)] bg-gradient-to-br from-primary/5 to-transparent">
+                    <div className="absolute top-0 right-0 p-8">
+                      <Sparkles className="w-8 h-8 text-primary animate-pulse opacity-50" />
+                    </div>
+                    <h3 className="text-2xl font-black mb-8 tracking-tight">System Link <span className="text-primary text-glow">Ready.</span></h3>
+                    <div className="bg-black/60 p-5 rounded-2xl mb-8 font-mono text-[10px] break-all border border-white/5 text-primary/90 leading-relaxed shadow-inner">
+                      {generatedUrl}
+                    </div>
+                    <div className="flex flex-col gap-3">
+                      <Button onClick={handleCopyUrl} variant="outline" className="w-full rounded-2xl h-14 border-primary/30 hover:bg-primary/10 font-black text-xs tracking-widest border-2">
+                        {copied ? <Check className="w-4 h-4 mr-2" /> : <Copy className="w-4 h-4 mr-2" />}
+                        {copied ? 'COPIADO' : 'COPIAR LINK'}
+                      </Button>
+                      <Button onClick={() => window.open(generatedUrl, '_blank')} className="w-full rounded-2xl h-14 font-black text-xs tracking-widest shadow-xl">
+                        ABRIR AGORA <ExternalLink className="w-4 h-4 ml-2" />
+                      </Button>
                     </div>
                   </div>
-                )}
-              </div>
-            ) : (
-              <div className="bg-secondary p-6 rounded-md text-center space-y-4">
-                <div className="text-4xl">🔗</div>
-                <p className="font-bold text-foreground">Gere um link para começar</p>
-                <p className="text-sm text-muted-foreground">
-                  Preencha seu ID de indicação e selecione ou crie um prompt acima
-                </p>
-              </div>
-            )}
+
+                  {showConversionGuide && (
+                    <motion.div
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ delay: 0.3 }}
+                      className="glass p-10 rounded-[2.5rem] space-y-8 border-white/5"
+                    >
+                      <h3 className="font-black text-lg flex items-center gap-3">
+                        <Zap className="w-6 h-6 text-accent fill-current" /> GROWTH ENGINE
+                      </h3>
+                      <div className="space-y-6">
+                        {[
+                          { step: '01', title: 'Viralização Local', desc: 'Distribua o link em canais de tecnologia e produtividade.' },
+                          { step: '02', title: 'Instant Build', desc: 'A engine Lovable processa o prompt e injeta o código automaticamente.' },
+                          { step: '03', title: 'The Activation', desc: 'Crítico: O usuário deve realizar o "Publish" para validar o ciclo.' },
+                          { step: '⚡', title: 'Credit Reward', desc: 'O sistema audita a publicação e credita ambas as contas.' },
+                        ].map((item, i) => (
+                          <div key={i} className="flex gap-5 items-start group">
+                            <span className="text-sm font-black text-accent w-6 flex-shrink-0 group-hover:scale-125 transition-transform">{item.step}</span>
+                            <div className="space-y-1">
+                              <p className="font-black text-xs uppercase tracking-wider text-white/90">{item.title}</p>
+                              <p className="text-[11px] text-muted-foreground/80 leading-relaxed font-medium">{item.desc}</p>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    </motion.div>
+                  )}
+                </motion.div>
+              ) : (
+                <motion.div
+                  key="empty"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  className="sticky top-28 glass p-20 rounded-[3rem] text-center flex flex-col items-center border-dashed border-white/10"
+                >
+                  <div className="w-24 h-24 bg-white/5 rounded-3xl flex items-center justify-center mb-8 rotate-3 hover:rotate-0 transition-transform duration-500 border border-white/5">
+                    <Zap className="w-12 h-12 text-primary opacity-20" />
+                  </div>
+                  <h3 className="font-black text-xl mb-4 text-white/40 tracking-tight">Aguardando Parâmetros</h3>
+                  <p className="text-sm text-muted-foreground/60 leading-relaxed max-w-[200px] font-medium">Finalize a configuração à esquerda para ativar o motor de indução.</p>
+                </motion.div>
+              )}
+            </AnimatePresence>
           </div>
         </div>
       </main>
 
-      {/* Rodapé */}
-      <footer className="border-t border-border mt-16">
-        <div className="container py-8">
-          <div className="flex flex-col md:flex-row justify-between items-center gap-4 mb-6">
-            <p className="text-sm text-muted-foreground">
-              Gerador de Links Lovable • Maximize conversões com criação automática de apps
+      <footer className="py-32 border-t border-white/5 relative z-10 bg-black/20">
+        <div className="container">
+          <div className="flex flex-col items-center text-center">
+            <div className="w-12 h-12 bg-white/5 rounded-2xl flex items-center justify-center mb-8 border border-white/10">
+              <Sparkles className="w-6 h-6 text-primary/40" />
+            </div>
+            <p className="text-[10px] tracking-[0.4em] font-black text-muted-foreground/50 uppercase mb-8">
+              POWERED BY ORIENTOHUB & MANUS AI
             </p>
-            <a
-              href="/faq"
-              className="text-sm font-bold text-accent hover:text-accent/90 transition-colors"
-            >
-              Perguntas Frequentes
-            </a>
-          </div>
-          <div className="text-xs text-muted-foreground text-center border-t border-border pt-4">
-            <p>© 2026 Gerador de Links Lovable. Todos os direitos reservados.</p>
+            <div className="flex flex-wrap justify-center gap-10 text-xs font-black tracking-widest opacity-40">
+              <a href="#" className="hover:text-primary hover:opacity-100 transition-all">SYSTEM STATUS</a>
+              <a href="#" className="hover:text-primary hover:opacity-100 transition-all">DOCUMENTATION</a>
+              <a href="#" className="hover:text-primary hover:opacity-100 transition-all">COMMUNITY</a>
+            </div>
+            <p className="mt-16 text-[10px] text-muted-foreground/20 font-mono">
+              v1.5.0-STABLE • MULTI-CLUSTER-READY
+            </p>
           </div>
         </div>
       </footer>
